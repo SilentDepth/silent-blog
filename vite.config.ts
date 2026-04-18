@@ -15,8 +15,26 @@ const config = defineConfig({
     singleQuote: true,
     arrowParens: 'avoid',
     sortImports: {
-      groups: ['external', 'internal', 'parent', 'sibling'],
-      internalPattern: ['#'],
+      groups: [
+        'builtin',
+        'side_effect',
+        'external',
+        'unplugin-icons',
+        'src-aliases',
+        ['parent', 'sibling', 'index'],
+        'unknown',
+      ],
+      customGroups: [
+        {
+          groupName: 'unplugin-icons',
+          elementNamePattern: ['~icons/**'],
+        },
+        {
+          groupName: 'src-aliases',
+          elementNamePattern: ['#/**'],
+        },
+      ],
+      newlinesBetween: false,
       partitionByNewline: false,
     },
   },

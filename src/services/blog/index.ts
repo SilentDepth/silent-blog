@@ -2,7 +2,6 @@ import type { GetPageResponse } from '@notionhq/client'
 import { queryOptions } from '@tanstack/react-query'
 import { createServerFn } from '@tanstack/react-start'
 import { match, type } from 'arktype'
-
 import * as notion from '#/services/notion'
 
 const POSTS_VIEW_ID = process.env.POSTS_VIEW_ID!

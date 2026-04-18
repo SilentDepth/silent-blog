@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 import { Suspense } from 'react'
 import { tv } from 'tailwind-variants'
 import MingcuteQuoteRightFill from '~icons/mingcute/quote-right-fill'
-
 import { Route as PostRoute } from '#/routes/_default-layout/post/$pageId/route'
 import { postsQueryOptions } from '#/services/blog'
 

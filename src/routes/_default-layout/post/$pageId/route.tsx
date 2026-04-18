@@ -1,13 +1,12 @@
+import 'react-notion-x/styles.css'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import type { ExtendedRecordMap } from 'notion-types'
 import { NotionRenderer } from 'react-notion-x'
-
 import Text from '#/components/Text.tsx'
 import { parseNotionPage, postQueryOptions } from '#/services/blog'
 import { createSeoMeta } from '#/utils/seo'
-import 'react-notion-x/styles.css'
 import { isServer } from '#/utils/ssr'
 import { Uuid } from '#/utils/types'
 

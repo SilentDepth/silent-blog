@@ -1,6 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-
 import { postsQueryOptions } from '#/services/blog'
 
 export const Route = createFileRoute('/playground/ssr')({

@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
-
 import { postQueryOptions } from '#/services/blog'
 
 export const Route = createFileRoute('/_debug-layout/post/$pageId/debug')({

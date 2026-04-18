@@ -9,15 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DefaultLayoutRouteRouteImport } from './routes/_default-layout/route'
+import { Route as DebugLayoutDebugRouteImport } from './routes/_debug-layout/debug'
+import { Route as DebugLayoutPostPageIdDebugRouteImport } from './routes/_debug-layout/post/$pageId/debug'
 import { Route as DebugLayoutRouteRouteImport } from './routes/_debug-layout/route'
 import { Route as DefaultLayoutIndexRouteImport } from './routes/_default-layout/index'
-import { Route as PlaygroundSsrRouteImport } from './routes/playground/ssr'
-import { Route as PlaygroundOgImageRouteImport } from './routes/playground/og-image'
-import { Route as DebugLayoutDebugRouteImport } from './routes/_debug-layout/debug'
-import { Route as DefaultLayoutPostPageIdRouteRouteImport } from './routes/_default-layout/post/$pageId/route'
 import { Route as DefaultLayoutPostPageIdImageRouteImport } from './routes/_default-layout/post/$pageId/image'
-import { Route as DebugLayoutPostPageIdDebugRouteImport } from './routes/_debug-layout/post/$pageId/debug'
+import { Route as DefaultLayoutPostPageIdRouteRouteImport } from './routes/_default-layout/post/$pageId/route'
+import { Route as DefaultLayoutRouteRouteImport } from './routes/_default-layout/route'
+import { Route as PlaygroundOgImageRouteImport } from './routes/playground/og-image'
+import { Route as PlaygroundSsrRouteImport } from './routes/playground/ssr'
 
 const DefaultLayoutRouteRoute = DefaultLayoutRouteRouteImport.update({
   id: '/_default-layout',
@@ -47,24 +47,21 @@ const DebugLayoutDebugRoute = DebugLayoutDebugRouteImport.update({
   path: '/debug',
   getParentRoute: () => DebugLayoutRouteRoute,
 } as any)
-const DefaultLayoutPostPageIdRouteRoute =
-  DefaultLayoutPostPageIdRouteRouteImport.update({
-    id: '/post/$pageId',
-    path: '/post/$pageId',
-    getParentRoute: () => DefaultLayoutRouteRoute,
-  } as any)
-const DefaultLayoutPostPageIdImageRoute =
-  DefaultLayoutPostPageIdImageRouteImport.update({
-    id: '/image',
-    path: '/image',
-    getParentRoute: () => DefaultLayoutPostPageIdRouteRoute,
-  } as any)
-const DebugLayoutPostPageIdDebugRoute =
-  DebugLayoutPostPageIdDebugRouteImport.update({
-    id: '/post/$pageId/debug',
-    path: '/post/$pageId/debug',
-    getParentRoute: () => DebugLayoutRouteRoute,
-  } as any)
+const DefaultLayoutPostPageIdRouteRoute = DefaultLayoutPostPageIdRouteRouteImport.update({
+  id: '/post/$pageId',
+  path: '/post/$pageId',
+  getParentRoute: () => DefaultLayoutRouteRoute,
+} as any)
+const DefaultLayoutPostPageIdImageRoute = DefaultLayoutPostPageIdImageRouteImport.update({
+  id: '/image',
+  path: '/image',
+  getParentRoute: () => DefaultLayoutPostPageIdRouteRoute,
+} as any)
+const DebugLayoutPostPageIdDebugRoute = DebugLayoutPostPageIdDebugRouteImport.update({
+  id: '/post/$pageId/debug',
+  path: '/post/$pageId/debug',
+  getParentRoute: () => DebugLayoutRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof DefaultLayoutIndexRoute
@@ -213,22 +210,20 @@ const DebugLayoutRouteRouteChildren: DebugLayoutRouteRouteChildren = {
   DebugLayoutPostPageIdDebugRoute: DebugLayoutPostPageIdDebugRoute,
 }
 
-const DebugLayoutRouteRouteWithChildren =
-  DebugLayoutRouteRoute._addFileChildren(DebugLayoutRouteRouteChildren)
+const DebugLayoutRouteRouteWithChildren = DebugLayoutRouteRoute._addFileChildren(
+  DebugLayoutRouteRouteChildren,
+)
 
 interface DefaultLayoutPostPageIdRouteRouteChildren {
   DefaultLayoutPostPageIdImageRoute: typeof DefaultLayoutPostPageIdImageRoute
 }
 
-const DefaultLayoutPostPageIdRouteRouteChildren: DefaultLayoutPostPageIdRouteRouteChildren =
-  {
-    DefaultLayoutPostPageIdImageRoute: DefaultLayoutPostPageIdImageRoute,
-  }
+const DefaultLayoutPostPageIdRouteRouteChildren: DefaultLayoutPostPageIdRouteRouteChildren = {
+  DefaultLayoutPostPageIdImageRoute: DefaultLayoutPostPageIdImageRoute,
+}
 
 const DefaultLayoutPostPageIdRouteRouteWithChildren =
-  DefaultLayoutPostPageIdRouteRoute._addFileChildren(
-    DefaultLayoutPostPageIdRouteRouteChildren,
-  )
+  DefaultLayoutPostPageIdRouteRoute._addFileChildren(DefaultLayoutPostPageIdRouteRouteChildren)
 
 interface DefaultLayoutRouteRouteChildren {
   DefaultLayoutIndexRoute: typeof DefaultLayoutIndexRoute
@@ -237,12 +232,12 @@ interface DefaultLayoutRouteRouteChildren {
 
 const DefaultLayoutRouteRouteChildren: DefaultLayoutRouteRouteChildren = {
   DefaultLayoutIndexRoute: DefaultLayoutIndexRoute,
-  DefaultLayoutPostPageIdRouteRoute:
-    DefaultLayoutPostPageIdRouteRouteWithChildren,
+  DefaultLayoutPostPageIdRouteRoute: DefaultLayoutPostPageIdRouteRouteWithChildren,
 }
 
-const DefaultLayoutRouteRouteWithChildren =
-  DefaultLayoutRouteRoute._addFileChildren(DefaultLayoutRouteRouteChildren)
+const DefaultLayoutRouteRouteWithChildren = DefaultLayoutRouteRoute._addFileChildren(
+  DefaultLayoutRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   DebugLayoutRouteRoute: DebugLayoutRouteRouteWithChildren,
@@ -254,8 +249,8 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from './router.tsx'
 import type { createStart } from '@tanstack/react-start'
+import type { getRouter } from './router.tsx'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true

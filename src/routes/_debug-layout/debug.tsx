@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-
 import * as notion from '#/services/notion'
 import { isClient } from '#/utils/ssr.ts'
 

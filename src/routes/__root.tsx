@@ -4,7 +4,6 @@ import type { ErrorComponentProps } from '@tanstack/react-router'
 import { HeadContent, Scripts, createRootRouteWithContext, Navigate } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import type { PropsWithChildren } from 'react'
-
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
 

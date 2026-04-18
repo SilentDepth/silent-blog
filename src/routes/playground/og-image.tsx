@@ -2,7 +2,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useAsync } from 'react-use'
 import satori from 'satori'
-
 import { loadFont } from '#/api/font.ts'
 import IMG_LOGO from '#/assets/images/pengin_outline.png?inline'
 
