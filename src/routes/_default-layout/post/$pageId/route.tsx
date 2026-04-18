@@ -4,8 +4,9 @@ import { createFileRoute, notFound } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import type { ExtendedRecordMap } from 'notion-types'
 import { NotionRenderer } from 'react-notion-x'
-import Text from '#/components/Text.tsx'
+import Text from '#/components/Text'
 import { parseNotionPage, postQueryOptions } from '#/services/blog'
+import { cn } from '#/utils/classname'
 import { createSeoMeta } from '#/utils/seo'
 import { isServer } from '#/utils/ssr'
 import { Uuid } from '#/utils/types'
@@ -71,7 +72,15 @@ function PageRenderer({ skeleton, title, createdTime, recordMap }: PageRenderPro
         <h1 className="text-3xl font-serif font-black mb-2">
           <Text value={title} skeleton={skeleton} />
         </h1>
-        <p className="text-sm text-olive-500 prepend-zws">
+        <p
+          className={cn(
+            'text-sm prepend-zws',
+            // Light mode
+            'text-olive-500',
+            // Dark mode
+            'dark:text-mist-500',
+          )}
+        >
           {createdTime && dayjs(createdTime).format('YYYY-MM-DD')}
         </p>
       </header>

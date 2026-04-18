@@ -1,13 +1,14 @@
 diff --git a/build/index.js b/build/index.js
-index cbcb3b3c0594ca78a50799c05e3b33687a8a7609..355b36a29367103fd00d753f1888c0d4a8d4822a 100644
+index cbcb3b3c0594ca78a50799c05e3b33687a8a7609..a6c001e49208d256c6a32c525f2fffe73360408a 100644
 --- a/build/index.js
 +++ b/build/index.js
-@@ -1503,7 +1503,7 @@ function AssetWrapper({
+@@ -1503,7 +1503,8 @@ function AssetWrapper({
    const { components, mapPageUrl, rootDomain, zoom } = useNotionContext();
    let isURL = false;
    if (block.type === "image") {
 -    const caption = (_c = (_b = (_a = value == null ? void 0 : value.properties) == null ? void 0 : _a.caption) == null ? void 0 : _b[0]) == null ? void 0 : _c[0];
-+    const [caption] = (_c = (_b = (_a = value == null ? void 0 : value.properties) == null ? void 0 : _a.caption) == null ? void 0 : _b[0]) == null ? void 0 : _c[0];
++    const _caption = (_c = (_b = (_a = value == null ? void 0 : value.properties) == null ? void 0 : _a.caption) == null ? void 0 : _b[0]) == null ? void 0 : _c[0];
++    const caption = Array.isArray(_caption) ? _caption[0] : _caption
      if (caption) {
        const id = parsePageId2(caption, { uuid: true });
        const isPage = caption.charAt(0) === "/" && id;

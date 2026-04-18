@@ -46,3 +46,5 @@ export function parseNotionPage(page: GetPageResponse) {
       .default(() => false)(page),
   }
 }
+
+export type PostInfo = ReturnType<typeof parseNotionPage>

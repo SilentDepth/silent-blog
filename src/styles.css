@@ -3,6 +3,8 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans:
     -apple-system, 'Noto Sans', 'Helvetica Neue', Helvetica, 'Nimbus Sans L', Arial,
@@ -91,6 +93,7 @@
 
   .notion {
     @apply leading-relaxed;
+    color: inherit;
   }
 
   .notion-page {

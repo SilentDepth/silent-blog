@@ -1,4 +1,5 @@
 import { type, match } from 'arktype'
+import { cn } from '#/utils/classname'
 
 export interface TextProps {
   value?: string
@@ -10,7 +11,15 @@ export default function Text(props: TextProps) {
 
   return match
     .case({ skeleton: 'true' }, () => (
-      <span className="h-[1em] text-transparent bg-olive-200 rounded-md box-decoration-clone animate-pulse">
+      <span
+        className={cn(
+          'h-[1em] text-transparent rounded-md box-decoration-clone animate-pulse',
+          // Light mode
+          'bg-olive-500/20',
+          // Dark mode
+          'dark:bg-mist-500/20',
+        )}
+      >
         {value}
       </span>
     ))

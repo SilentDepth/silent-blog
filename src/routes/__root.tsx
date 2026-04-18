@@ -4,6 +4,7 @@ import type { ErrorComponentProps } from '@tanstack/react-router'
 import { HeadContent, Scripts, createRootRouteWithContext, Navigate } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import type { PropsWithChildren } from 'react'
+import { cn } from '#/utils/classname'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
 
@@ -50,7 +51,15 @@ function RootDocument({ children }: PropsWithChildren) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="text-base font-sans antialiased wrap-anywhere bg-olive-100 selection:bg-[rgba(79,184,178,0.24)]">
+      <body
+        className={cn(
+          'text-base font-sans antialiased wrap-anywhere selection:bg-[rgba(79,184,178,0.24)]',
+          // Light mode
+          'text-olive-800 bg-olive-100',
+          // Dark mode
+          'dark:text-mist-200 dark:bg-mist-900',
+        )}
+      >
         {children}
         <TanStackDevtools
           config={{

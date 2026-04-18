@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, Link } from '@tanstack/react-router'
 import type { PropsWithChildren } from 'react'
 import { twMerge as cn } from 'tailwind-merge'
 import MingcuteArrowLeftLine from '~icons/mingcute/arrow-left-line'
+import ThemeToggle from '#/components/ThemeToggle.tsx'
 
 export const Route = createFileRoute('/_default-layout')({
   component: DefaultLayout,
@@ -13,11 +14,7 @@ function DefaultLayout({ children = <Outlet /> }: PropsWithChildren) {
     <div>
       <LayoutHeader />
       {children}
-      <footer className="py-8 flex justify-center items-center">
-        <p className="flex items-center gap-[0.5em]">
-          🐧<span className="text-sm text-gray-500">2026</span>
-        </p>
-      </footer>
+      <LayoutFooter />
     </div>
   )
 }
@@ -27,7 +24,11 @@ function LayoutHeader() {
     <header className="px-10 py-4">
       <div className="max-w-prose mx-auto py-4 flex items-center gap-4">
         <HomeLink />
-        <div className="text-sm ml-auto">About</div>
+        <div className="contents *:first:ml-auto">
+          {/* TODO */}
+          {/*<div className="text-sm ml-auto">About</div>*/}
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   )
@@ -41,7 +42,9 @@ function HomeLink() {
           <div
             className={cn(
               'size-8 rounded-md grid place-items-center *:row-start-1 *:col-start-1 overflow-hidden',
-              isActive ? 'bg-gray-50' : 'bg-gray-100 border border-black/5',
+              isActive
+                ? 'bg-olive-50 dark:bg-mist-700'
+                : 'bg-olive-100 dark:bg-mist-700 border border-black/5',
             )}
             style={{ fontSize: 20 }}
           >
@@ -64,6 +67,16 @@ function HomeLink() {
         </>
       )}
     </Link>
+  )
+}
+
+function LayoutFooter() {
+  return (
+    <footer className="py-8 flex justify-center items-center">
+      <p className="flex items-center gap-[0.5em]">
+        🐧<span className="text-sm text-olive-500 dark:text-mist-500">2026</span>
+      </p>
+    </footer>
   )
 }
 
