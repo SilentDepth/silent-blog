@@ -32,6 +32,16 @@ function Page() {
   )
 }
 
+function PostList({ posts }: { posts?: PostInfo[] }) {
+  return (
+    <ul className="max-w-prose mx-auto grid grid-cols-[auto_1fr] gap-4">
+      {(posts ?? Array.from<undefined>({ length: 5 })).map((it, idx) => (
+        <PostItem key={it?.id ?? idx} data={it} />
+      ))}
+    </ul>
+  )
+}
+
 const postStyles = tv({
   slots: {
     root: 'col-span-full',
@@ -43,6 +53,7 @@ const postStyles = tv({
       // Dark mode
       'dark:text-mist-500',
     ],
+    summary: '',
   },
   variants: {
     isLight: {
@@ -57,23 +68,14 @@ const postStyles = tv({
         time: 'mb-1',
       },
       false: {
-        root: 'grid grid-cols-subgrid',
+        root: 'grid grid-cols-subgrid gap-y-1',
         title: 'font-serif font-semibold',
         time: 'leading-7',
+        summary: 'col-start-2 text-sm',
       },
     },
   },
 })
-
-function PostList({ posts }: { posts?: PostInfo[] }) {
-  return (
-    <ul className="max-w-prose mx-auto grid grid-cols-[auto_1fr] gap-4">
-      {(posts ?? Array.from<undefined>({ length: 5 })).map((it, idx) => (
-        <PostItem key={it?.id ?? idx} data={it} />
-      ))}
-    </ul>
-  )
-}
 
 function PostItem({ data }: { data?: PostInfo }) {
   const skeleton = !data
@@ -87,12 +89,12 @@ function PostItem({ data }: { data?: PostInfo }) {
 
   return (
     <li className={styles.root()}>
-      <span className={styles.time()}>
+      <time dateTime={data?.date} className={styles.time()}>
         <Text
           value={data ? dayjs(data.date).format('YYYY-MM-DD') : '2000-01-01'}
           skeleton={skeleton}
         />
-      </span>
+      </time>
       {!data || data.isLight ? (
         title
       ) : (
@@ -115,6 +117,7 @@ function PostItem({ data }: { data?: PostInfo }) {
           )}
         />
       )}
+      {data?.summary && <p className={styles.summary()}>{data.summary}</p>}
     </li>
   )
 }

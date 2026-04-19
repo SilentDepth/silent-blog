@@ -19,10 +19,12 @@ const DateProperty = type({
 })
 const NotionPage = type({
   id: 'string.uuid',
-  created_time: 'string',
   properties: {
     title: {
       title: type({ plain_text: 'string' }).array(),
+    },
+    summary: {
+      rich_text: type({ plain_text: 'string' }).array(),
     },
     slug: {
       rich_text: type({ plain_text: 'string' }).array(),
@@ -97,6 +99,7 @@ export function parseNotionPage(page: GetPageResponse | GetDataSourceResponse) {
   return {
     id: _page.id,
     title: _page.properties.title.title.map(it => it.plain_text).join(''),
+    summary: _page.properties.summary.rich_text.map(it => it.plain_text).join(''),
     slug: _page.properties.slug.rich_text.map(it => it.plain_text).join(''),
     date: getDatePropertyValue(_page.properties.date),
     isLight: match

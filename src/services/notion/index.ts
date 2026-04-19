@@ -11,6 +11,7 @@ export const getNotion = createServerOnlyFn(() => notion)
 
 export enum PageProperty {
   title = 'title',
+  summary = 'summary',
   type = 'type',
   slug = 'slug',
   date = 'date',
