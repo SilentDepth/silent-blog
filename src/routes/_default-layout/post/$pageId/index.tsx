@@ -11,7 +11,7 @@ import { createSeoMeta } from '#/utils/seo'
 import { isServer } from '#/utils/ssr'
 import { Uuid } from '#/utils/types'
 
-export const Route = createFileRoute('/_default-layout/post/$pageId')({
+export const Route = createFileRoute('/_default-layout/post/$pageId/')({
   loader: async ({ params, context }) => {
     const { pageId } = params
     if (Uuid.allows(pageId)) {
@@ -49,11 +49,11 @@ function PendingComponent() {
 function Page() {
   const { pageId } = Route.useParams()
   const { data: recordMap } = useSuspenseQuery(postQueryOptions(pageId))
-  const { title, createdTime } = parseNotionPage(recordMap.raw.page)
+  const { title, date } = parseNotionPage(recordMap.raw.page)
 
   return (
     <div className="px-10">
-      <PageRenderer title={title} createdTime={createdTime} recordMap={recordMap} />
+      <PageRenderer title={title} createdTime={date} recordMap={recordMap} />
     </div>
   )
 }

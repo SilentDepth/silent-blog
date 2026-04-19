@@ -11,6 +11,7 @@ const config = defineConfig({
     '*': 'vp check --fix',
   },
   fmt: {
+    ignorePatterns: ['routeTree.gen.ts'],
     semi: false,
     singleQuote: true,
     arrowParens: 'avoid',
@@ -38,7 +39,13 @@ const config = defineConfig({
       partitionByNewline: false,
     },
   },
-  lint: { options: { typeAware: true, typeCheck: true } },
+  lint: {
+    ignorePatterns: ['routeTree.gen.ts'],
+    options: { typeAware: true, typeCheck: true },
+    rules: {
+      'no-unused-vars': 'warn',
+    },
+  },
   resolve: { tsconfigPaths: true },
   plugins: [
     devtools(),

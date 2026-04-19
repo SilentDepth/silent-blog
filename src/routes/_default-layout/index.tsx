@@ -9,7 +9,7 @@ import type { PostInfo } from '#/services/blog'
 import { postsQueryOptions } from '#/services/blog'
 import { cn } from '#/utils/classname'
 import { isServer } from '#/utils/ssr'
-import { Route as PostRoute } from './post/$pageId/route'
+import { Route as PostRoute } from './post/$pageId'
 
 export const Route = createFileRoute('/_default-layout/')({
   loader: async ({ context }) => {
@@ -28,11 +28,11 @@ export const Route = createFileRoute('/_default-layout/')({
 })
 
 function Page() {
-  const { data: posts = [], isLoading } = useQuery(postsQueryOptions())
+  const { data: posts, isLoading } = useQuery(postsQueryOptions())
 
   return (
     <main className="px-10">
-      <PostList posts={isLoading ? undefined : posts} />
+      <PostList posts={isLoading ? undefined : (posts?.items ?? [])} />
     </main>
   )
 }
@@ -94,7 +94,7 @@ function PostItem({ data }: { data?: PostInfo }) {
     <li className={styles.root()}>
       <span className={styles.time()}>
         <Text
-          value={data ? dayjs(data.createdTime).format('YYYY-MM-DD') : '2000-01-01'}
+          value={data ? dayjs(data.date).format('YYYY-MM-DD') : '2000-01-01'}
           skeleton={skeleton}
         />
       </span>

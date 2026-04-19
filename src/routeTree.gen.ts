@@ -15,7 +15,7 @@ import { Route as DefaultLayoutIndexRouteImport } from './routes/_default-layout
 import { Route as PlaygroundSsrRouteImport } from './routes/playground/ssr'
 import { Route as PlaygroundOgImageRouteImport } from './routes/playground/og-image'
 import { Route as DebugLayoutDebugRouteImport } from './routes/_debug-layout/debug'
-import { Route as DefaultLayoutPostPageIdRouteRouteImport } from './routes/_default-layout/post/$pageId/route'
+import { Route as DefaultLayoutPostPageIdIndexRouteImport } from './routes/_default-layout/post/$pageId/index'
 import { Route as DefaultLayoutPostPageIdImageRouteImport } from './routes/_default-layout/post/$pageId/image'
 import { Route as DebugLayoutPostPageIdDebugRouteImport } from './routes/_debug-layout/post/$pageId/debug'
 
@@ -47,17 +47,17 @@ const DebugLayoutDebugRoute = DebugLayoutDebugRouteImport.update({
   path: '/debug',
   getParentRoute: () => DebugLayoutRouteRoute,
 } as any)
-const DefaultLayoutPostPageIdRouteRoute =
-  DefaultLayoutPostPageIdRouteRouteImport.update({
-    id: '/post/$pageId',
-    path: '/post/$pageId',
+const DefaultLayoutPostPageIdIndexRoute =
+  DefaultLayoutPostPageIdIndexRouteImport.update({
+    id: '/post/$pageId/',
+    path: '/post/$pageId/',
     getParentRoute: () => DefaultLayoutRouteRoute,
   } as any)
 const DefaultLayoutPostPageIdImageRoute =
   DefaultLayoutPostPageIdImageRouteImport.update({
-    id: '/image',
-    path: '/image',
-    getParentRoute: () => DefaultLayoutPostPageIdRouteRoute,
+    id: '/post/$pageId/image',
+    path: '/post/$pageId/image',
+    getParentRoute: () => DefaultLayoutRouteRoute,
   } as any)
 const DebugLayoutPostPageIdDebugRoute =
   DebugLayoutPostPageIdDebugRouteImport.update({
@@ -71,18 +71,18 @@ export interface FileRoutesByFullPath {
   '/debug': typeof DebugLayoutDebugRoute
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
-  '/post/$pageId': typeof DefaultLayoutPostPageIdRouteRouteWithChildren
   '/post/$pageId/debug': typeof DebugLayoutPostPageIdDebugRoute
   '/post/$pageId/image': typeof DefaultLayoutPostPageIdImageRoute
+  '/post/$pageId/': typeof DefaultLayoutPostPageIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof DefaultLayoutIndexRoute
   '/debug': typeof DebugLayoutDebugRoute
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
-  '/post/$pageId': typeof DefaultLayoutPostPageIdRouteRouteWithChildren
   '/post/$pageId/debug': typeof DebugLayoutPostPageIdDebugRoute
   '/post/$pageId/image': typeof DefaultLayoutPostPageIdImageRoute
+  '/post/$pageId': typeof DefaultLayoutPostPageIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -92,9 +92,9 @@ export interface FileRoutesById {
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
   '/_default-layout/': typeof DefaultLayoutIndexRoute
-  '/_default-layout/post/$pageId': typeof DefaultLayoutPostPageIdRouteRouteWithChildren
   '/_debug-layout/post/$pageId/debug': typeof DebugLayoutPostPageIdDebugRoute
   '/_default-layout/post/$pageId/image': typeof DefaultLayoutPostPageIdImageRoute
+  '/_default-layout/post/$pageId/': typeof DefaultLayoutPostPageIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -103,18 +103,18 @@ export interface FileRouteTypes {
     | '/debug'
     | '/playground/og-image'
     | '/playground/ssr'
-    | '/post/$pageId'
     | '/post/$pageId/debug'
     | '/post/$pageId/image'
+    | '/post/$pageId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/debug'
     | '/playground/og-image'
     | '/playground/ssr'
-    | '/post/$pageId'
     | '/post/$pageId/debug'
     | '/post/$pageId/image'
+    | '/post/$pageId'
   id:
     | '__root__'
     | '/_debug-layout'
@@ -123,9 +123,9 @@ export interface FileRouteTypes {
     | '/playground/og-image'
     | '/playground/ssr'
     | '/_default-layout/'
-    | '/_default-layout/post/$pageId'
     | '/_debug-layout/post/$pageId/debug'
     | '/_default-layout/post/$pageId/image'
+    | '/_default-layout/post/$pageId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,19 +179,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DebugLayoutDebugRouteImport
       parentRoute: typeof DebugLayoutRouteRoute
     }
-    '/_default-layout/post/$pageId': {
-      id: '/_default-layout/post/$pageId'
+    '/_default-layout/post/$pageId/': {
+      id: '/_default-layout/post/$pageId/'
       path: '/post/$pageId'
-      fullPath: '/post/$pageId'
-      preLoaderRoute: typeof DefaultLayoutPostPageIdRouteRouteImport
+      fullPath: '/post/$pageId/'
+      preLoaderRoute: typeof DefaultLayoutPostPageIdIndexRouteImport
       parentRoute: typeof DefaultLayoutRouteRoute
     }
     '/_default-layout/post/$pageId/image': {
       id: '/_default-layout/post/$pageId/image'
-      path: '/image'
+      path: '/post/$pageId/image'
       fullPath: '/post/$pageId/image'
       preLoaderRoute: typeof DefaultLayoutPostPageIdImageRouteImport
-      parentRoute: typeof DefaultLayoutPostPageIdRouteRoute
+      parentRoute: typeof DefaultLayoutRouteRoute
     }
     '/_debug-layout/post/$pageId/debug': {
       id: '/_debug-layout/post/$pageId/debug'
@@ -216,29 +216,16 @@ const DebugLayoutRouteRouteChildren: DebugLayoutRouteRouteChildren = {
 const DebugLayoutRouteRouteWithChildren =
   DebugLayoutRouteRoute._addFileChildren(DebugLayoutRouteRouteChildren)
 
-interface DefaultLayoutPostPageIdRouteRouteChildren {
-  DefaultLayoutPostPageIdImageRoute: typeof DefaultLayoutPostPageIdImageRoute
-}
-
-const DefaultLayoutPostPageIdRouteRouteChildren: DefaultLayoutPostPageIdRouteRouteChildren =
-  {
-    DefaultLayoutPostPageIdImageRoute: DefaultLayoutPostPageIdImageRoute,
-  }
-
-const DefaultLayoutPostPageIdRouteRouteWithChildren =
-  DefaultLayoutPostPageIdRouteRoute._addFileChildren(
-    DefaultLayoutPostPageIdRouteRouteChildren,
-  )
-
 interface DefaultLayoutRouteRouteChildren {
   DefaultLayoutIndexRoute: typeof DefaultLayoutIndexRoute
-  DefaultLayoutPostPageIdRouteRoute: typeof DefaultLayoutPostPageIdRouteRouteWithChildren
+  DefaultLayoutPostPageIdImageRoute: typeof DefaultLayoutPostPageIdImageRoute
+  DefaultLayoutPostPageIdIndexRoute: typeof DefaultLayoutPostPageIdIndexRoute
 }
 
 const DefaultLayoutRouteRouteChildren: DefaultLayoutRouteRouteChildren = {
   DefaultLayoutIndexRoute: DefaultLayoutIndexRoute,
-  DefaultLayoutPostPageIdRouteRoute:
-    DefaultLayoutPostPageIdRouteRouteWithChildren,
+  DefaultLayoutPostPageIdImageRoute: DefaultLayoutPostPageIdImageRoute,
+  DefaultLayoutPostPageIdIndexRoute: DefaultLayoutPostPageIdIndexRoute,
 }
 
 const DefaultLayoutRouteRouteWithChildren =

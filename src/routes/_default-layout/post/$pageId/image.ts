@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { createOGImage } from '#/api/og-image.tsx'
+import { createOGImage } from '#/api/og-image'
 import { parseNotionPage } from '#/services/blog'
 import { fetchPageRecordMap } from '#/services/notion'
 

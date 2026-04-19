@@ -1,10 +1,17 @@
+import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Outlet, Link } from '@tanstack/react-router'
 import type { PropsWithChildren } from 'react'
 import { twMerge as cn } from 'tailwind-merge'
 import MingcuteArrowLeftLine from '~icons/mingcute/arrow-left-line'
-import ThemeToggle from '#/components/ThemeToggle.tsx'
+import ThemeToggle from '#/components/ThemeToggle'
+import { linksQueryOptions } from '#/services/blog'
+import { prepareQueryData } from '#/utils/ssr'
+import { Route as PageRoute } from './post/$pageId'
 
 export const Route = createFileRoute('/_default-layout')({
+  loader: async ({ context }) => {
+    await prepareQueryData(context.queryClient, linksQueryOptions())
+  },
   component: DefaultLayout,
   notFoundComponent: Error404,
 })
@@ -20,13 +27,18 @@ function DefaultLayout({ children = <Outlet /> }: PropsWithChildren) {
 }
 
 function LayoutHeader() {
+  const { data: links } = useQuery(linksQueryOptions())
+
   return (
     <header className="px-10 py-4">
       <div className="max-w-prose mx-auto py-4 flex items-center gap-4">
         <HomeLink />
-        <div className="contents *:first:ml-auto">
-          {/* TODO */}
-          {/*<div className="text-sm ml-auto">About</div>*/}
+        <div className="contents text-sm *:first:ml-auto">
+          {links?.items.map(it => (
+            <Link key={it.id} to={PageRoute.to} params={{ pageId: it.id }}>
+              {it.title}
+            </Link>
+          ))}
           <ThemeToggle />
         </div>
       </div>
