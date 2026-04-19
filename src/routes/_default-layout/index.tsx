@@ -8,17 +8,12 @@ import Text from '#/components/Text'
 import type { PostInfo } from '#/services/blog'
 import { postsQueryOptions } from '#/services/blog'
 import { cn } from '#/utils/classname'
-import { isServer } from '#/utils/ssr'
-import { Route as PostRoute } from './post/$pageId'
+import { prepareQueryData } from '#/utils/ssr'
+import { Route as PageRoute } from './$slugOrId'
 
 export const Route = createFileRoute('/_default-layout/')({
   loader: async ({ context }) => {
-    const queryOptions = postsQueryOptions()
-    if (isServer()) {
-      await context.queryClient.ensureQueryData(queryOptions)
-    } else {
-      context.queryClient.prefetchQuery(queryOptions)
-    }
+    await prepareQueryData(context.queryClient, postsQueryOptions())
   },
   headers: () => ({
     'Cache-Control': 'public, max-age=3600, stale-while-revalidate=604800',
@@ -101,7 +96,11 @@ function PostItem({ data }: { data?: PostInfo }) {
       {!data || data.isLight ? (
         title
       ) : (
-        <Link to={PostRoute.to} params={{ pageId: data.id }}>
+        <Link
+          to={PageRoute.to}
+          params={{ slugOrId: data.id }}
+          mask={{ to: PageRoute.to, params: { slugOrId: data.slug } }}
+        >
           {title}
         </Link>
       )}

@@ -10,7 +10,7 @@ overrides:
 
 patchedDependencies:
   react-notion-x:
-    hash: 6498c6234c5db5f2b77ac91e5a384eb29234d9d71a3d2e515702f2db1aa3bc23
+    hash: 999605efc8d5e21bf64ef42827f72d6187e05d8097c86ce9790d000810cf53f3
     path: patches/react-notion-x.patch
 
 importers:
@@ -73,7 +73,10 @@ importers:
         version: 19.2.5(react@19.2.5)
       react-notion-x:
         specifier: ^7.10.0
-        version: 7.10.0(patch_hash=6498c6234c5db5f2b77ac91e5a384eb29234d9d71a3d2e515702f2db1aa3bc23)(@babel/runtime@7.29.2)(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 7.10.0(patch_hash=999605efc8d5e21bf64ef42827f72d6187e05d8097c86ce9790d000810cf53f3)(@babel/runtime@7.29.2)(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react-tweet-embed:
+        specifier: ^2.0.0
+        version: 2.0.0(react@19.2.5)
       react-use:
         specifier: ^17.6.0
         version: 17.6.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -95,6 +98,9 @@ importers:
       tailwindcss:
         specifier: ^4.2.2
         version: 4.2.2
+      ufo:
+        specifier: ^1.6.3
+        version: 1.6.3
     devDependencies:
       '@iconify-json/mingcute':
         specifier: ^1.2.7
@@ -2776,6 +2782,11 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  react-tweet-embed@2.0.0:
+    resolution: {integrity: sha512-g2kfPjSRTOKeJtaQF5EMuSTmp/q8I0qdDs/pZ2qLXZjCWExDT/JgjxSlyM65NyNzsz8072PDpvlO/sIXwwVpdQ==}
+    peerDependencies:
+      react: '>=17'
 
   react-universal-interface@0.6.2:
     resolution: {integrity: sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==}
@@ -5585,7 +5596,7 @@ snapshots:
       react-lifecycles-compat: 3.0.4
       warning: 4.0.3
 
-  react-notion-x@7.10.0(patch_hash=6498c6234c5db5f2b77ac91e5a384eb29234d9d71a3d2e515702f2db1aa3bc23)(@babel/runtime@7.29.2)(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  react-notion-x@7.10.0(patch_hash=999605efc8d5e21bf64ef42827f72d6187e05d8097c86ce9790d000810cf53f3)(@babel/runtime@7.29.2)(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
     dependencies:
       '@fisch0920/medium-zoom': 1.0.7
       '@matejmazur/react-katex': 3.1.3(katex@0.16.21)(react@19.2.5)
@@ -5622,6 +5633,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.14
     optional: true
+
+  react-tweet-embed@2.0.0(react@19.2.5):
+    dependencies:
+      react: 19.2.5
 
   react-universal-interface@0.6.2(react@19.2.5)(tslib@2.8.1):
     dependencies:

@@ -51,12 +51,32 @@ export const fetchViewResults = createServerFn()
   })
 
 export const fetchPageRecordMap = createServerFn()
-  .inputValidator((data: string) => data)
-  .handler(async ({ data: pageId }) => {
+  .inputValidator((data: { id?: string; slug?: string }) => data)
+  .handler(async ({ data: { id, slug } }) => {
     setResponseHeaders(
       new Headers({
         'Cache-Control': 'public, max-age=3600, stale-while-revalidate=604800',
       }),
     )
-    return notion.getPage(pageId)
+
+    if (id) {
+      return notion.getPage(id)
+    }
+    if (slug) {
+      const view = await notion.client.views.retrieve({ view_id: process.env.POSTS_VIEW_ID! })
+      if (type({ data_source_id: 'string' }).allows(view)) {
+        const res = await notion.client.dataSources.query({
+          data_source_id: view.data_source_id,
+          filter_properties: [],
+          filter: {
+            property: PageProperty.slug,
+            rich_text: { equals: slug },
+          },
+        })
+        if (res.results.length) {
+          return notion.getPage(res.results[0].id)
+        }
+      }
+    }
+    return null
   })

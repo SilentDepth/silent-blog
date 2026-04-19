@@ -24,6 +24,9 @@ const NotionPage = type({
     title: {
       title: type({ plain_text: 'string' }).array(),
     },
+    slug: {
+      rich_text: type({ plain_text: 'string' }).array(),
+    },
     date: type.or(DateProperty, { formula: DateProperty }),
   },
 })
@@ -50,13 +53,6 @@ export const postsQueryOptions = () =>
     staleTime: 5 * 60_000,
   })
 
-export const postQueryOptions = (pageId: string) =>
-  queryOptions({
-    queryKey: ['post', pageId],
-    queryFn: () => notion.fetchPageRecordMap({ data: pageId }),
-    staleTime: 5 * 60_000,
-  })
-
 export const fetchLinks = createServerFn()
   .inputValidator((data?: { raw?: boolean }) => data)
   .handler(async ({ data: { raw } = {} }) => {
@@ -79,6 +75,21 @@ export const linksQueryOptions = () =>
     staleTime: 15 * 60_000,
   })
 
+export const postQueryOptions = (slugOrId: string) =>
+  queryOptions({
+    queryKey: ['post', slugOrId],
+    queryFn: () => {
+      return notion.fetchPageRecordMap({
+        data: match({
+          'string.uuid': id => ({ id }),
+          string: slug => ({ slug }),
+          default: 'never',
+        })(slugOrId),
+      })
+    },
+    staleTime: 5 * 60_000,
+  })
+
 /**/
 
 export function parseNotionPage(page: GetPageResponse | GetDataSourceResponse) {
@@ -86,6 +97,7 @@ export function parseNotionPage(page: GetPageResponse | GetDataSourceResponse) {
   return {
     id: _page.id,
     title: _page.properties.title.title.map(it => it.plain_text).join(''),
+    slug: _page.properties.slug.rich_text.map(it => it.plain_text).join(''),
     date: getDatePropertyValue(_page.properties.date),
     isLight: match
       .case({ properties: { type: { type: '"select"', select: { name: '"Light"' } } } }, () => true)
