@@ -57,7 +57,7 @@ function RouteComponent() {
   const { slugOrId } = Route.useParams()
   const { data } = useQuery(postQueryOptions(slugOrId))
 
-  if (!data) return null
+  if (!data) return <PageRenderer skeleton title="Lorem ipsum dolor sit amet" />
 
   const { title, date } = parseNotionPage(data.raw.page)
 
