@@ -4,7 +4,7 @@ import { createOGImage } from '#/api/og-image'
 import { parseNotionPage } from '#/services/blog'
 import { fetchPageRecordMap } from '#/services/notion'
 
-export const Route = createFileRoute('/_default-layout/$slugOrId/image/webp')({
+export const Route = createFileRoute('/_default-layout/$slugOrId/image.webp')({
   server: {
     handlers: {
       GET: async ({ params }) => {

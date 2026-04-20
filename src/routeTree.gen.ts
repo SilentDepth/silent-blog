@@ -16,8 +16,8 @@ import { Route as PlaygroundSsrRouteImport } from './routes/playground/ssr'
 import { Route as PlaygroundOgImageRouteImport } from './routes/playground/og-image'
 import { Route as DebugLayoutDebugRouteImport } from './routes/_debug-layout/debug'
 import { Route as DefaultLayoutSlugOrIdIndexRouteImport } from './routes/_default-layout/$slugOrId/index'
+import { Route as DefaultLayoutSlugOrIdImageDotwebpRouteImport } from './routes/_default-layout/$slugOrId/image[.]webp'
 import { Route as DebugLayoutSlugOrIdDebugRouteImport } from './routes/_debug-layout/$slugOrId/debug'
-import { Route as DefaultLayoutSlugOrIdImageWebpRouteImport } from './routes/_default-layout/$slugOrId/image.webp'
 
 const DefaultLayoutRouteRoute = DefaultLayoutRouteRouteImport.update({
   id: '/_default-layout',
@@ -53,17 +53,17 @@ const DefaultLayoutSlugOrIdIndexRoute =
     path: '/$slugOrId/',
     getParentRoute: () => DefaultLayoutRouteRoute,
   } as any)
+const DefaultLayoutSlugOrIdImageDotwebpRoute =
+  DefaultLayoutSlugOrIdImageDotwebpRouteImport.update({
+    id: '/$slugOrId/image.webp',
+    path: '/$slugOrId/image.webp',
+    getParentRoute: () => DefaultLayoutRouteRoute,
+  } as any)
 const DebugLayoutSlugOrIdDebugRoute =
   DebugLayoutSlugOrIdDebugRouteImport.update({
     id: '/$slugOrId/debug',
     path: '/$slugOrId/debug',
     getParentRoute: () => DebugLayoutRouteRoute,
-  } as any)
-const DefaultLayoutSlugOrIdImageWebpRoute =
-  DefaultLayoutSlugOrIdImageWebpRouteImport.update({
-    id: '/$slugOrId/image/webp',
-    path: '/$slugOrId/image/webp',
-    getParentRoute: () => DefaultLayoutRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -72,8 +72,8 @@ export interface FileRoutesByFullPath {
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
   '/$slugOrId/debug': typeof DebugLayoutSlugOrIdDebugRoute
+  '/$slugOrId/image.webp': typeof DefaultLayoutSlugOrIdImageDotwebpRoute
   '/$slugOrId/': typeof DefaultLayoutSlugOrIdIndexRoute
-  '/$slugOrId/image/webp': typeof DefaultLayoutSlugOrIdImageWebpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof DefaultLayoutIndexRoute
@@ -81,8 +81,8 @@ export interface FileRoutesByTo {
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
   '/$slugOrId/debug': typeof DebugLayoutSlugOrIdDebugRoute
+  '/$slugOrId/image.webp': typeof DefaultLayoutSlugOrIdImageDotwebpRoute
   '/$slugOrId': typeof DefaultLayoutSlugOrIdIndexRoute
-  '/$slugOrId/image/webp': typeof DefaultLayoutSlugOrIdImageWebpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,8 +93,8 @@ export interface FileRoutesById {
   '/playground/ssr': typeof PlaygroundSsrRoute
   '/_default-layout/': typeof DefaultLayoutIndexRoute
   '/_debug-layout/$slugOrId/debug': typeof DebugLayoutSlugOrIdDebugRoute
+  '/_default-layout/$slugOrId/image.webp': typeof DefaultLayoutSlugOrIdImageDotwebpRoute
   '/_default-layout/$slugOrId/': typeof DefaultLayoutSlugOrIdIndexRoute
-  '/_default-layout/$slugOrId/image/webp': typeof DefaultLayoutSlugOrIdImageWebpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -104,8 +104,8 @@ export interface FileRouteTypes {
     | '/playground/og-image'
     | '/playground/ssr'
     | '/$slugOrId/debug'
+    | '/$slugOrId/image.webp'
     | '/$slugOrId/'
-    | '/$slugOrId/image/webp'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -113,8 +113,8 @@ export interface FileRouteTypes {
     | '/playground/og-image'
     | '/playground/ssr'
     | '/$slugOrId/debug'
+    | '/$slugOrId/image.webp'
     | '/$slugOrId'
-    | '/$slugOrId/image/webp'
   id:
     | '__root__'
     | '/_debug-layout'
@@ -124,8 +124,8 @@ export interface FileRouteTypes {
     | '/playground/ssr'
     | '/_default-layout/'
     | '/_debug-layout/$slugOrId/debug'
+    | '/_default-layout/$slugOrId/image.webp'
     | '/_default-layout/$slugOrId/'
-    | '/_default-layout/$slugOrId/image/webp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -186,19 +186,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultLayoutSlugOrIdIndexRouteImport
       parentRoute: typeof DefaultLayoutRouteRoute
     }
+    '/_default-layout/$slugOrId/image.webp': {
+      id: '/_default-layout/$slugOrId/image.webp'
+      path: '/$slugOrId/image.webp'
+      fullPath: '/$slugOrId/image.webp'
+      preLoaderRoute: typeof DefaultLayoutSlugOrIdImageDotwebpRouteImport
+      parentRoute: typeof DefaultLayoutRouteRoute
+    }
     '/_debug-layout/$slugOrId/debug': {
       id: '/_debug-layout/$slugOrId/debug'
       path: '/$slugOrId/debug'
       fullPath: '/$slugOrId/debug'
       preLoaderRoute: typeof DebugLayoutSlugOrIdDebugRouteImport
       parentRoute: typeof DebugLayoutRouteRoute
-    }
-    '/_default-layout/$slugOrId/image/webp': {
-      id: '/_default-layout/$slugOrId/image/webp'
-      path: '/$slugOrId/image/webp'
-      fullPath: '/$slugOrId/image/webp'
-      preLoaderRoute: typeof DefaultLayoutSlugOrIdImageWebpRouteImport
-      parentRoute: typeof DefaultLayoutRouteRoute
     }
   }
 }
@@ -218,14 +218,15 @@ const DebugLayoutRouteRouteWithChildren =
 
 interface DefaultLayoutRouteRouteChildren {
   DefaultLayoutIndexRoute: typeof DefaultLayoutIndexRoute
+  DefaultLayoutSlugOrIdImageDotwebpRoute: typeof DefaultLayoutSlugOrIdImageDotwebpRoute
   DefaultLayoutSlugOrIdIndexRoute: typeof DefaultLayoutSlugOrIdIndexRoute
-  DefaultLayoutSlugOrIdImageWebpRoute: typeof DefaultLayoutSlugOrIdImageWebpRoute
 }
 
 const DefaultLayoutRouteRouteChildren: DefaultLayoutRouteRouteChildren = {
   DefaultLayoutIndexRoute: DefaultLayoutIndexRoute,
+  DefaultLayoutSlugOrIdImageDotwebpRoute:
+    DefaultLayoutSlugOrIdImageDotwebpRoute,
   DefaultLayoutSlugOrIdIndexRoute: DefaultLayoutSlugOrIdIndexRoute,
-  DefaultLayoutSlugOrIdImageWebpRoute: DefaultLayoutSlugOrIdImageWebpRoute,
 }
 
 const DefaultLayoutRouteRouteWithChildren =
