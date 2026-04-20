@@ -12,7 +12,7 @@ import { PageProperty } from '#/services/notion'
 import * as notion from '#/services/notion'
 
 const POSTS_VIEW_ID = process.env.POSTS_VIEW_ID!
-const PAGES_VIEW_ID = process.env.PAGES_VIEW_ID!
+const LINKS_VIEW_ID = process.env.LINKS_VIEW_ID!
 
 const DateProperty = type({
   date: { start: 'string' },
@@ -60,7 +60,7 @@ export const fetchLinks = createServerFn()
   .handler(async ({ data: { raw } = {} }) => {
     const pages = await notion.fetchViewResults({
       data: {
-        view_id: PAGES_VIEW_ID,
+        view_id: LINKS_VIEW_ID,
         sorts: [{ property: PageProperty.order, direction: 'ascending' }],
       },
     })
