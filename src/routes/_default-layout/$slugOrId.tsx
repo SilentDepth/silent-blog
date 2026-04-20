@@ -8,7 +8,7 @@ import { createSeoMeta } from '#/utils/seo'
 import { isClient, isServer, prepareQueryData } from '#/utils/ssr'
 import { Uuid } from '#/utils/types'
 
-export const Route = createFileRoute('/_default-layout/$slugOrId/')({
+export const Route = createFileRoute('/_default-layout/$slugOrId')({
   loader: async ({ params, context }) => {
     const data = await prepareQueryData(context.queryClient, postQueryOptions(params.slugOrId))
     if (data) {

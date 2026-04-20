@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { createFileRoute, Outlet, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
 import type { PropsWithChildren } from 'react'
 import { twMerge as cn } from 'tailwind-merge'
 import MingcuteArrowLeftLine from '~icons/mingcute/arrow-left-line'
