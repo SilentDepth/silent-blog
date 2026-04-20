@@ -53,7 +53,7 @@ const postStyles = tv({
       // Dark mode
       'dark:text-mist-500',
     ],
-    summary: '',
+    summary: 'opacity-75',
   },
   variants: {
     isLight: {
