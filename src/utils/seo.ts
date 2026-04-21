@@ -18,13 +18,18 @@ export function createSeoMeta({
   ]
 
   if (title) {
-    meta.push({ title }, { property: 'og:title', content: title })
+    meta.push(
+      { title },
+      { property: 'og:title', content: title },
+      { name: 'twitter:title', content: title },
+    )
   }
 
   if (description) {
     meta.push(
       { name: 'description', content: description },
       { property: 'og:description', content: description },
+      { name: 'twitter:description', content: description },
     )
   }
 
@@ -37,7 +42,14 @@ export function createSeoMeta({
       { property: 'og:image', content: image },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
+      { name: 'twitter:image', content: image },
+      { name: 'twitter:image:width', content: '1200' },
+      { name: 'twitter:image:height', content: '630' },
     )
+  }
+
+  if (process.env.TWITTER_SITE) {
+    meta.push({ name: 'twitter:site', content: process.env.TWITTER_SITE })
   }
 
   return meta

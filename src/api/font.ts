@@ -1,9 +1,8 @@
 import { joinURL } from 'ufo'
+import { getSiteUrl } from '#/utils/ssr'
 
 const loadFontFile = (name: string) =>
-  fetch(joinURL(`${process.env.SITE_URL || process.env.VERCEL_URL || ''}/assets/fonts`, name)).then(
-    res => res.arrayBuffer(),
-  )
+  fetch(joinURL(getSiteUrl(), 'assets/fonts', name)).then(res => res.arrayBuffer())
 
 export async function loadFonts() {
   const [NotoSerif] = await Promise.all([

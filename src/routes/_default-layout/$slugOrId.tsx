@@ -5,7 +5,7 @@ import { joinURL } from 'ufo'
 import PageRenderer from '#/components/PageRenderer'
 import { parseNotionPage, postQueryOptions } from '#/services/blog'
 import { createSeoMeta } from '#/utils/seo'
-import { isClient, isServer, prepareQueryData } from '#/utils/ssr'
+import { getSiteUrl, isClient, isServer, prepareQueryData } from '#/utils/ssr'
 import { Uuid } from '#/utils/types'
 
 export const Route = createFileRoute('/_default-layout/$slugOrId')({
@@ -30,11 +30,12 @@ export const Route = createFileRoute('/_default-layout/$slugOrId')({
   },
   head: async ({ params, loaderData }) => {
     const parsedPage = loaderData ? parseNotionPage(loaderData.raw.page) : undefined
-    const url = `/${(parsedPage?.slug || parsedPage?.id) ?? params.slugOrId}`
+    const url = joinURL(getSiteUrl(), `${(parsedPage?.slug || parsedPage?.id) ?? params.slugOrId}`)
     return {
       meta: [
         ...createSeoMeta({
           ...parsedPage,
+          description: parsedPage?.summary,
           url,
           image: joinURL(url, 'image.webp'),
         }),
