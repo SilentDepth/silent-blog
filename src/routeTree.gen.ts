@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
 import { Route as DefaultLayoutRouteRouteImport } from './routes/_default-layout/route'
 import { Route as DebugLayoutRouteRouteImport } from './routes/_debug-layout/route'
 import { Route as DefaultLayoutIndexRouteImport } from './routes/_default-layout/index'
@@ -19,6 +20,11 @@ import { Route as DebugLayoutDebugRouteImport } from './routes/_debug-layout/deb
 import { Route as DefaultLayoutSlugOrIdImageDotwebpRouteImport } from './routes/_default-layout/$slugOrId/image[.]webp'
 import { Route as DebugLayoutSlugOrIdDebugRouteImport } from './routes/_debug-layout/$slugOrId/debug'
 
+const PlaygroundRouteRoute = PlaygroundRouteRouteImport.update({
+  id: '/playground',
+  path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DefaultLayoutRouteRoute = DefaultLayoutRouteRouteImport.update({
   id: '/_default-layout',
   getParentRoute: () => rootRouteImport,
@@ -33,14 +39,14 @@ const DefaultLayoutIndexRoute = DefaultLayoutIndexRouteImport.update({
   getParentRoute: () => DefaultLayoutRouteRoute,
 } as any)
 const PlaygroundSsrRoute = PlaygroundSsrRouteImport.update({
-  id: '/playground/ssr',
-  path: '/playground/ssr',
-  getParentRoute: () => rootRouteImport,
+  id: '/ssr',
+  path: '/ssr',
+  getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const PlaygroundOgImageRoute = PlaygroundOgImageRouteImport.update({
-  id: '/playground/og-image',
-  path: '/playground/og-image',
-  getParentRoute: () => rootRouteImport,
+  id: '/og-image',
+  path: '/og-image',
+  getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const DefaultLayoutSlugOrIdRoute = DefaultLayoutSlugOrIdRouteImport.update({
   id: '/$slugOrId',
@@ -67,6 +73,7 @@ const DebugLayoutSlugOrIdDebugRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof DefaultLayoutIndexRoute
+  '/playground': typeof PlaygroundRouteRouteWithChildren
   '/debug': typeof DebugLayoutDebugRoute
   '/$slugOrId': typeof DefaultLayoutSlugOrIdRouteWithChildren
   '/playground/og-image': typeof PlaygroundOgImageRoute
@@ -76,6 +83,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof DefaultLayoutIndexRoute
+  '/playground': typeof PlaygroundRouteRouteWithChildren
   '/debug': typeof DebugLayoutDebugRoute
   '/$slugOrId': typeof DefaultLayoutSlugOrIdRouteWithChildren
   '/playground/og-image': typeof PlaygroundOgImageRoute
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_debug-layout': typeof DebugLayoutRouteRouteWithChildren
   '/_default-layout': typeof DefaultLayoutRouteRouteWithChildren
+  '/playground': typeof PlaygroundRouteRouteWithChildren
   '/_debug-layout/debug': typeof DebugLayoutDebugRoute
   '/_default-layout/$slugOrId': typeof DefaultLayoutSlugOrIdRouteWithChildren
   '/playground/og-image': typeof PlaygroundOgImageRoute
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/playground'
     | '/debug'
     | '/$slugOrId'
     | '/playground/og-image'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/playground'
     | '/debug'
     | '/$slugOrId'
     | '/playground/og-image'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_debug-layout'
     | '/_default-layout'
+    | '/playground'
     | '/_debug-layout/debug'
     | '/_default-layout/$slugOrId'
     | '/playground/og-image'
@@ -130,12 +142,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   DebugLayoutRouteRoute: typeof DebugLayoutRouteRouteWithChildren
   DefaultLayoutRouteRoute: typeof DefaultLayoutRouteRouteWithChildren
-  PlaygroundOgImageRoute: typeof PlaygroundOgImageRoute
-  PlaygroundSsrRoute: typeof PlaygroundSsrRoute
+  PlaygroundRouteRoute: typeof PlaygroundRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/playground': {
+      id: '/playground'
+      path: '/playground'
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_default-layout': {
       id: '/_default-layout'
       path: ''
@@ -159,17 +177,17 @@ declare module '@tanstack/react-router' {
     }
     '/playground/ssr': {
       id: '/playground/ssr'
-      path: '/playground/ssr'
+      path: '/ssr'
       fullPath: '/playground/ssr'
       preLoaderRoute: typeof PlaygroundSsrRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
     }
     '/playground/og-image': {
       id: '/playground/og-image'
-      path: '/playground/og-image'
+      path: '/og-image'
       fullPath: '/playground/og-image'
       preLoaderRoute: typeof PlaygroundOgImageRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
     }
     '/_default-layout/$slugOrId': {
       id: '/_default-layout/$slugOrId'
@@ -242,11 +260,24 @@ const DefaultLayoutRouteRouteChildren: DefaultLayoutRouteRouteChildren = {
 const DefaultLayoutRouteRouteWithChildren =
   DefaultLayoutRouteRoute._addFileChildren(DefaultLayoutRouteRouteChildren)
 
+interface PlaygroundRouteRouteChildren {
+  PlaygroundOgImageRoute: typeof PlaygroundOgImageRoute
+  PlaygroundSsrRoute: typeof PlaygroundSsrRoute
+}
+
+const PlaygroundRouteRouteChildren: PlaygroundRouteRouteChildren = {
+  PlaygroundOgImageRoute: PlaygroundOgImageRoute,
+  PlaygroundSsrRoute: PlaygroundSsrRoute,
+}
+
+const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(
+  PlaygroundRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   DebugLayoutRouteRoute: DebugLayoutRouteRouteWithChildren,
   DefaultLayoutRouteRoute: DefaultLayoutRouteRouteWithChildren,
-  PlaygroundOgImageRoute: PlaygroundOgImageRoute,
-  PlaygroundSsrRoute: PlaygroundSsrRoute,
+  PlaygroundRouteRoute: PlaygroundRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

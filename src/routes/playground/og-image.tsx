@@ -1,105 +1,40 @@
 import { createFileRoute } from '@tanstack/react-router'
+import type { ComponentProps } from 'react'
 import { useState } from 'react'
 import { useAsync } from 'react-use'
-import satori from 'satori'
-import { loadFont } from '#/api/font'
-import IMG_LOGO from '#/assets/images/pengin_outline.png?inline'
-
-const font = loadFont()
+import { createOGImage } from '#/utils/og-image'
 
 export const Route = createFileRoute('/playground/og-image')({
+  ssr: false,
   component: RouteComponent,
 })
 
-const WIDTH = 1200
-const HEIGHT = 630
-const EM = 80
-
 function RouteComponent() {
-  const { value } = useAsync(async () => {
-    return satori(
-      <div
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: '100%',
-          padding: EM,
-          background: `radial-gradient(100% 100% at 100% 0%, oklch(45% 0.017 213.2), oklch(21.8% 0.008 223.9) 80%)`,
-          position: 'relative',
-        }}
-      >
-        <img
-          src={IMG_LOGO}
-          alt=""
-          style={{
-            width: EM * 0.6,
-            height: EM * 0.6,
-            position: 'absolute',
-            top: EM,
-            right: EM,
-          }}
-        />
-        <div
-          style={{
-            fontSize: EM,
-            color: 'white',
-            width: WIDTH * 0.8 - EM,
-            position: 'absolute',
-            left: EM,
-            bottom: HEIGHT * 0.2,
-          }}
-        >
-          这是一行测试文本
-        </div>
-      </div>,
-      {
-        width: 1200,
-        height: 630,
-        fonts: [
-          {
-            data: await font,
-            name: 'Noto Serif',
-            weight: 400,
-            style: 'normal',
-          },
-        ],
-      },
-    )
-  }, [])
-
-  const [small, setSmall] = useState(true)
+  const [scaled, setScaled] = useState(true)
 
   return (
-    <div className="p-10">
-      <div
-        className="mx-auto"
-        style={{ width: WIDTH, height: HEIGHT, scale: small ? '50%' : undefined }}
-        onClick={() => setSmall(val => !val)}
-        dangerouslySetInnerHTML={{ __html: value ?? '' }}
-      />
-      <div
-        className="font-serif font-bold mx-auto overflow-hidden"
-        style={{ width: WIDTH, height: HEIGHT, scale: small ? '50%' : undefined }}
-        onClick={() => setSmall(val => !val)}
-      >
-        <div
-          className="size-full bg-radial-[at_0_0] from-mist-600 to-mist-900 to-80% relative"
-          style={{ fontSize: EM, lineHeight: 1.05, padding: EM }}
-        >
-          <img
-            src={IMG_LOGO}
-            alt=""
-            className="absolute"
-            style={{ width: EM * 0.6, height: EM * 0.6, top: EM, right: EM }}
-          />
-          <div
-            className="text-white absolute"
-            style={{ width: WIDTH * 0.8 - EM, left: EM, bottom: HEIGHT * 0.2 }}
-          >
-            这是一行测试文本
-          </div>
-        </div>
+    <div className="">
+      <div className="p-10 flex justify-center bg-black">
+        <OgImage
+          data={{ title: '这是一行测试文本' }}
+          style={{ scale: scaled ? '50%' : undefined }}
+        />
+      </div>
+      <div className="px-10 py-4 border-t border-white/10" onClick={() => setScaled(val => !val)}>
+        <label className="flex items-center gap-[0.25em]">
+          <input type="checkbox" checked={scaled} onChange={() => setScaled(val => !val)} />
+          <span>Scaled</span>
+        </label>
       </div>
     </div>
   )
+}
+
+function OgImage({
+  data,
+  ...attrs
+}: ComponentProps<'div'> & { data: Parameters<typeof createOGImage>[0] }) {
+  const { value } = useAsync(() => createOGImage(data))
+
+  return <div {...attrs} dangerouslySetInnerHTML={{ __html: value ?? '' }} />
 }

@@ -1,8 +1,9 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { type } from 'arktype'
-import { createOGImage } from '#/api/og-image'
+import sharp from 'sharp'
 import { parseNotionPage } from '#/services/blog'
 import { fetchPageRecordMap } from '#/services/notion'
+import { createOGImage } from '#/utils/og-image'
 
 export const Route = createFileRoute('/_default-layout/$slugOrId/image.webp')({
   server: {
@@ -16,7 +17,8 @@ export const Route = createFileRoute('/_default-layout/$slugOrId/image.webp')({
         if (!recordMap) throw notFound()
 
         const page = parseNotionPage(recordMap.raw.page)
-        const image = await createOGImage({ data: page })
+        const svg = await createOGImage(page)
+        const image = await sharp(Buffer.from(svg)).webp({ lossless: true }).toBuffer()
         const arrBuf = new ArrayBuffer(image.byteLength)
         new Uint8Array(arrBuf).set(image)
         return new Response(arrBuf, {
