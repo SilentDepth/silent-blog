@@ -14,8 +14,8 @@
     "prepare": "vp config"
   },
   "dependencies": {
-    "@notionhq/client": "^5.19.0",
-    "@tailwindcss/vite": "^4.2.2",
+    "@notionhq/client": "^5.20.0",
+    "@tailwindcss/vite": "^4.2.4",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-query": "latest",
     "@tanstack/react-query-devtools": "latest",
@@ -23,10 +23,10 @@
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
-    "@tanstack/router-plugin": "^1.167.22",
+    "@tanstack/router-plugin": "^1.167.23",
     "arktype": "^2.2.0",
     "dayjs": "^1.11.20",
-    "es-toolkit": "^1.45.1",
+    "es-toolkit": "^1.46.0",
     "motion": "^12.38.0",
     "nitro": "3.0.260415-beta",
     "notion-compat": "^7.10.0",
@@ -40,7 +40,7 @@
     "srvx": "^0.11.15",
     "tailwind-merge": "^3.5.0",
     "tailwind-variants": "^3.2.2",
-    "tailwindcss": "^4.2.2",
+    "tailwindcss": "^4.2.4",
     "ufo": "^1.6.3"
   },
   "devDependencies": {
@@ -55,7 +55,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "jsdom": "^28.1.0",
     "notion-types": "^7.10.0",
     "type-fest": "^5.6.0",
     "typescript": "^6.0.3",
@@ -64,7 +63,7 @@
     "vite-plus": "latest",
     "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
   },
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@10.33.2",
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
