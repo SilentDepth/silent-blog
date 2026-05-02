@@ -11,7 +11,7 @@ import { cn } from '#/utils/classname'
 import { prepareQueryData } from '#/utils/ssr'
 import { Route as PageRoute } from './$slugOrId'
 
-export const Route = createFileRoute('/_default-layout/')({
+export const Route = createFileRoute('/_blog-layout/')({
   loader: async ({ context }) => {
     await prepareQueryData(context.queryClient, postsQueryOptions())
   },

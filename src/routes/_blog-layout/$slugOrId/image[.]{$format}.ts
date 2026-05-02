@@ -1,11 +1,15 @@
+import { Resvg, initWasm } from '@resvg/resvg-wasm'
+// @ts-ignore
+import resvgWasm from '@resvg/resvg-wasm/index_bg.wasm'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { type } from 'arktype'
-import sharp from 'sharp'
 import { parseNotionPage } from '#/services/blog'
 import { fetchPageRecordMap } from '#/services/notion'
 import { createOGImage } from '#/utils/og-image'
 
-export const Route = createFileRoute('/_default-layout/$slugOrId/image.webp')({
+await initWasm(resvgWasm)
+
+export const Route = createFileRoute('/_blog-layout/$slugOrId/image.{$format}')({
   server: {
     handlers: {
       GET: async ({ params }) => {
@@ -18,14 +22,20 @@ export const Route = createFileRoute('/_default-layout/$slugOrId/image.webp')({
 
         const page = parseNotionPage(recordMap.raw.page)
         const svg = await createOGImage(page)
-        const image = await sharp(Buffer.from(svg)).webp({ lossless: true }).toBuffer()
-        const arrBuf = new ArrayBuffer(image.byteLength)
-        new Uint8Array(arrBuf).set(image)
-        return new Response(arrBuf, {
-          headers: {
-            'Content-Type': 'image/webp',
-          },
-        })
+
+        switch (params.format) {
+          case 'png':
+          default: {
+            const image = new Resvg(svg).render().asPng()
+            const arrBuf = new ArrayBuffer(image.byteLength)
+            new Uint8Array(arrBuf).set(image)
+            return new Response(arrBuf, {
+              headers: {
+                'Content-Type': 'image/png',
+              },
+            })
+          }
+        }
       },
     },
   },

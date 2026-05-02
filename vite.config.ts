@@ -4,6 +4,8 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import react from '@vitejs/plugin-react'
 import { nitro } from 'nitro/vite'
 import icons from 'unplugin-icons/vite'
+import { unwasm } from 'unwasm/plugin'
+import topLevelAwait from 'vite-plugin-top-level-await'
 import { defineConfig } from 'vite-plus'
 
 const config = defineConfig({
@@ -51,7 +53,11 @@ const config = defineConfig({
     devtools(),
     tailwindcss(),
     tanstackStart(),
-    nitro(),
+    nitro({
+      preset: process.env.VERCEL ? undefined : 'cloudflare-module',
+    }),
+    unwasm({}),
+    topLevelAwait(),
     react(),
     icons({
       compiler: 'jsx',

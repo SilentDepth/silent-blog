@@ -8,7 +8,7 @@ import { createSeoMeta } from '#/utils/seo'
 import { getSiteUrl, isClient, isServer, prepareQueryData } from '#/utils/ssr'
 import { Uuid } from '#/utils/types'
 
-export const Route = createFileRoute('/_default-layout/$slugOrId')({
+export const Route = createFileRoute('/_blog-layout/$slugOrId')({
   loader: async ({ params, context }) => {
     const data = await prepareQueryData(context.queryClient, postQueryOptions(params.slugOrId))
     if (data) {
@@ -37,7 +37,7 @@ export const Route = createFileRoute('/_default-layout/$slugOrId')({
           ...parsedPage,
           description: parsedPage?.summary,
           url,
-          image: joinURL(url, 'image.webp'),
+          image: joinURL(url, 'image.png'),
         }),
       ],
     }

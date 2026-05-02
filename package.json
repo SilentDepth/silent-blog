@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^5.20.0",
+    "@resvg/resvg-wasm": "^2.6.2",
     "@tailwindcss/vite": "^4.2.4",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-query": "latest",
@@ -36,7 +37,6 @@
     "react-tweet-embed": "^2.0.0",
     "react-use": "^17.6.0",
     "satori": "^0.26.0",
-    "sharp": "^0.34.5",
     "srvx": "^0.11.15",
     "tailwind-merge": "^3.5.0",
     "tailwind-variants": "^3.2.2",
@@ -56,12 +56,16 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "notion-types": "^7.10.0",
+    "rollup": "^4.60.2",
     "type-fest": "^5.6.0",
     "typescript": "^6.0.3",
     "unplugin-icons": "^23.0.1",
+    "unwasm": "^0.5.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+    "vite-plugin-top-level-await": "^1.6.0",
     "vite-plus": "latest",
-    "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
+    "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
+    "wrangler": "^4.85.0"
   },
   "packageManager": "pnpm@10.33.2",
   "pnpm": {

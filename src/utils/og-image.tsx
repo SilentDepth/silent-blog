@@ -1,6 +1,10 @@
-import satori from 'satori'
+import satori, { init as initWasm } from 'satori/standalone'
+// @ts-ignore
+import yogaWasm from 'satori/yoga.wasm'
 import { loadFonts } from '#/api/font'
 import IMG_LOGO from '#/assets/images/pengin_outline.png?inline'
+
+await initWasm(yogaWasm)
 
 const WIDTH = 1200
 const HEIGHT = 630
