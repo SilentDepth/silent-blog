@@ -13,6 +13,7 @@ import { Route as PlaygroundRouteRouteImport } from './routes/playground/route'
 import { Route as DebugLayoutRouteRouteImport } from './routes/_debug-layout/route'
 import { Route as BlogLayoutRouteRouteImport } from './routes/_blog-layout/route'
 import { Route as BlogLayoutIndexRouteImport } from './routes/_blog-layout/index'
+import { Route as PlaygroundWasmRouteImport } from './routes/playground/wasm'
 import { Route as PlaygroundSsrRouteImport } from './routes/playground/ssr'
 import { Route as PlaygroundOgImageRouteImport } from './routes/playground/og-image'
 import { Route as PlaygroundAtChar123nameChar125RouteImport } from './routes/playground/@{$name}'
@@ -38,6 +39,11 @@ const BlogLayoutIndexRoute = BlogLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => BlogLayoutRouteRoute,
+} as any)
+const PlaygroundWasmRoute = PlaygroundWasmRouteImport.update({
+  id: '/wasm',
+  path: '/wasm',
+  getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const PlaygroundSsrRoute = PlaygroundSsrRouteImport.update({
   id: '/ssr',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
+  '/playground/wasm': typeof PlaygroundWasmRoute
   '/$slugOrId/image.{$format}': typeof BlogLayoutSlugOrIdImageDotChar123formatChar125Route
   '/$slugOrId/debug': typeof DebugLayoutSlugOrIdDebugRoute
 }
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
+  '/playground/wasm': typeof PlaygroundWasmRoute
   '/$slugOrId/image.{$format}': typeof BlogLayoutSlugOrIdImageDotChar123formatChar125Route
   '/$slugOrId/debug': typeof DebugLayoutSlugOrIdDebugRoute
 }
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
+  '/playground/wasm': typeof PlaygroundWasmRoute
   '/_blog-layout/': typeof BlogLayoutIndexRoute
   '/_blog-layout/$slugOrId/image.{$format}': typeof BlogLayoutSlugOrIdImageDotChar123formatChar125Route
   '/_debug-layout/$slugOrId/debug': typeof DebugLayoutSlugOrIdDebugRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/playground/@{$name}'
     | '/playground/og-image'
     | '/playground/ssr'
+    | '/playground/wasm'
     | '/$slugOrId/image.{$format}'
     | '/$slugOrId/debug'
   fileRoutesByTo: FileRoutesByTo
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/playground/@{$name}'
     | '/playground/og-image'
     | '/playground/ssr'
+    | '/playground/wasm'
     | '/$slugOrId/image.{$format}'
     | '/$slugOrId/debug'
   id:
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
     | '/playground/@{$name}'
     | '/playground/og-image'
     | '/playground/ssr'
+    | '/playground/wasm'
     | '/_blog-layout/'
     | '/_blog-layout/$slugOrId/image.{$format}'
     | '/_debug-layout/$slugOrId/debug'
@@ -187,6 +199,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof BlogLayoutIndexRouteImport
       parentRoute: typeof BlogLayoutRouteRoute
+    }
+    '/playground/wasm': {
+      id: '/playground/wasm'
+      path: '/wasm'
+      fullPath: '/playground/wasm'
+      preLoaderRoute: typeof PlaygroundWasmRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
     }
     '/playground/ssr': {
       id: '/playground/ssr'
@@ -283,12 +302,14 @@ interface PlaygroundRouteRouteChildren {
   PlaygroundAtChar123nameChar125Route: typeof PlaygroundAtChar123nameChar125Route
   PlaygroundOgImageRoute: typeof PlaygroundOgImageRoute
   PlaygroundSsrRoute: typeof PlaygroundSsrRoute
+  PlaygroundWasmRoute: typeof PlaygroundWasmRoute
 }
 
 const PlaygroundRouteRouteChildren: PlaygroundRouteRouteChildren = {
   PlaygroundAtChar123nameChar125Route: PlaygroundAtChar123nameChar125Route,
   PlaygroundOgImageRoute: PlaygroundOgImageRoute,
   PlaygroundSsrRoute: PlaygroundSsrRoute,
+  PlaygroundWasmRoute: PlaygroundWasmRoute,
 }
 
 const PlaygroundRouteRouteWithChildren = PlaygroundRouteRoute._addFileChildren(

@@ -16,7 +16,6 @@
   "dependencies": {
     "@notionhq/client": "^5.20.0",
     "@resvg/resvg-wasm": "^2.6.2",
-    "@tailwindcss/vite": "^4.2.4",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-query": "latest",
     "@tanstack/react-query-devtools": "latest",
@@ -24,7 +23,7 @@
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
-    "@tanstack/router-plugin": "^1.167.23",
+    "@tanstack/router-plugin": "^1.167.28",
     "arktype": "^2.2.0",
     "dayjs": "^1.11.20",
     "es-toolkit": "^1.46.0",
@@ -48,6 +47,7 @@
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.4",
     "@tanstack/devtools-vite": "latest",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
@@ -62,7 +62,6 @@
     "unplugin-icons": "^23.0.1",
     "unwasm": "^0.5.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-    "vite-plugin-top-level-await": "^1.6.0",
     "vite-plus": "latest",
     "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
     "wrangler": "^4.85.0"

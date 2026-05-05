@@ -5,8 +5,9 @@ import react from '@vitejs/plugin-react'
 import { nitro } from 'nitro/vite'
 import icons from 'unplugin-icons/vite'
 import { unwasm } from 'unwasm/plugin'
-// import topLevelAwait from 'vite-plugin-top-level-await'
 import { defineConfig } from 'vite-plus'
+
+const useWasmEsmImport = !import.meta.dev
 
 const config = defineConfig({
   staged: {
@@ -54,10 +55,14 @@ const config = defineConfig({
     tailwindcss(),
     tanstackStart(),
     nitro({
+      compatibilityDate: '2026-05-01',
       preset: process.env.VERCEL ? 'vercel' : 'cloudflare-module',
+      wasm: false,
     }),
-    unwasm({}),
-    // topLevelAwait(),
+    unwasm({
+      esmImport: useWasmEsmImport,
+      lazy: useWasmEsmImport,
+    }),
     react(),
     icons({
       compiler: 'jsx',

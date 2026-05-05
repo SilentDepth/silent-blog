@@ -1,13 +1,12 @@
-import { Resvg, initWasm } from '@resvg/resvg-wasm'
-// @ts-ignore
-import resvgWasm from '@resvg/resvg-wasm/index_bg.wasm'
+import { Resvg } from '@resvg/resvg-wasm'
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { type } from 'arktype'
 import { parseNotionPage } from '#/services/blog'
 import { fetchPageRecordMap } from '#/services/notion'
 import { createOGImage } from '#/utils/og-image'
+import { initResvg } from '#/utils/resvg'
 
-await initWasm(resvgWasm)
+await initResvg()
 
 export const Route = createFileRoute('/_blog-layout/$slugOrId/image.{$format}')({
   server: {
