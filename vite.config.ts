@@ -58,6 +58,11 @@ const config = defineConfig({
       compatibilityDate: '2026-05-01',
       preset: process.env.VERCEL ? 'vercel' : 'cloudflare-module',
       wasm: false,
+      cloudflare: {
+        wrangler: {
+          keep_vars: true,
+        },
+      },
     }),
     unwasm({
       esmImport: useWasmEsmImport,
