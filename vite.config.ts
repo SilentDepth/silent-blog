@@ -7,7 +7,7 @@ import icons from 'unplugin-icons/vite'
 import { unwasm } from 'unwasm/plugin'
 import { defineConfig } from 'vite-plus'
 
-const useWasmEsmImport = !import.meta.dev
+const useWasmEsmImport = process.env.NODE_ENV !== 'development'
 
 const config = defineConfig({
   staged: {

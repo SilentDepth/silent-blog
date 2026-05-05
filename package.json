@@ -10,7 +10,6 @@
     "dev": "vp dev --port $PORT --host",
     "build": "vp build",
     "preview": "vp preview --port $PORT --host",
-    "test": "vp test run",
     "prepare": "vp config"
   },
   "dependencies": {

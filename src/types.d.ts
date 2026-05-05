@@ -1,12 +1,10 @@
-declare module '*.wasm?module' {
-  const mod: WebAssembly.Module | Promise<WebAssembly.Module>
-  export default mod
-}
+import 'nitro/runtime-config'
+import type { ServerRuntimeContext } from 'srvx'
 
-declare module 'notion-types' {
-  interface ExtendedRecordMap {
-    raw: {
-      page: import('@notionhq/client').GetPageResponse
-    }
+declare global {
+  interface Request {
+    readonly runtime?: ServerRuntimeContext
   }
 }
+
+export {}
