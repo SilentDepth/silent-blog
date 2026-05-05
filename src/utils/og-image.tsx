@@ -1,6 +1,6 @@
 import satori from 'satori/standalone'
-import { loadFonts } from '#/api/font'
 import IMG_LOGO from '#/assets/images/pengin_outline.png?inline'
+import { loadFonts } from '#/utils/font'
 import { initSatori } from '#/utils/satori'
 
 await initSatori()

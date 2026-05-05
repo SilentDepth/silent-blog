@@ -1,6 +1,7 @@
 import type { EnsureQueryDataOptions, QueryClient } from '@tanstack/react-query'
 import { createIsomorphicFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
+import { hasProtocol, withProtocol } from 'ufo'
 
 export const isServer = createIsomorphicFn()
   .server(() => true)
@@ -26,5 +27,11 @@ export async function prepareQueryData<TQueryOptions extends PreparedQueryOption
 }
 
 export const getSiteUrl = createIsomorphicFn()
-  .server(() => new URL(getRequest().url).origin)
+  .server(() => {
+    let origin = process.env.SITE_URL || process.env.VERCEL_URL || new URL(getRequest().url).origin
+    if (!hasProtocol(origin)) {
+      origin = withProtocol(origin, 'http:')
+    }
+    return origin
+  })
   .client(() => location.origin)
