@@ -43,7 +43,8 @@ export const Route = createFileRoute('/_blog-layout/$slugOrId')({
     }
   },
   headers: () => ({
-    'Cache-Control': 'public, max-age=3600, stale-while-revalidate=604800',
+    'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
+    'CDN-Cache-Control': 'max-age=172800',
   }),
   staleTime: 5 * 60_000,
   pendingComponent: PendingComponent,

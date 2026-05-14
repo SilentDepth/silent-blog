@@ -22,6 +22,11 @@ export const Route = createFileRoute('/_blog-layout/$slugOrId/image.{$format}')(
         const page = parseNotionPage(recordMap.raw.page)
         const svg = await createOGImage(page)
 
+        const cacheHeaders = {
+          'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
+          'CDN-Cache-Control': 'max-age=172800',
+        }
+
         switch (params.format) {
           case 'png':
           default: {
@@ -31,6 +36,7 @@ export const Route = createFileRoute('/_blog-layout/$slugOrId/image.{$format}')(
             return new Response(arrBuf, {
               headers: {
                 'Content-Type': 'image/png',
+                ...cacheHeaders,
               },
             })
           }
