@@ -1,0 +1,5 @@
+@reference 'tailwindcss';
+
+.header {
+  background: linear-gradient(to top, --alpha(var(--page-bg) / 0), var(--page-bg) 2rem);
+}

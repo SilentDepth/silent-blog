@@ -1,5 +1,18 @@
+overrides:
+  vite: npm:@voidzero-dev/vite-plus-core@latest
+  vitest: npm:@voidzero-dev/vite-plus-test@latest
 allowBuilds:
   canvas: true
   esbuild: true
   sharp: true
   workerd: true
+patchedDependencies:
+  react-notion-x: patches/react-notion-x.patch
+  notion-utils: patches/notion-utils.patch
+peerDependencyRules:
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'

@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_debug-layout')({
 
 function RouteComponent() {
   return (
-    <div className="h-dvh p-10 flex flex-col overflow-hidden">
+    <div className="h-dvh flex flex-col overflow-hidden">
       <Outlet />
     </div>
   )

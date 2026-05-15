@@ -1,0 +1,12 @@
+.post_item {
+  &.animate {
+    animation: 0.3s var(--ease-out) var(--delay) 1 backwards entering;
+  }
+}
+
+@keyframes entering {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}

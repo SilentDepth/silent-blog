@@ -1,12 +1,13 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link, Outlet } from '@tanstack/react-router'
-import type { PropsWithChildren } from 'react'
+import { type PropsWithChildren, Suspense } from 'react'
 import { twMerge as cn } from 'tailwind-merge'
 import MingcuteArrowLeftLine from '~icons/mingcute/arrow-left-line'
 import ThemeToggle from '#/components/ThemeToggle'
 import { linksQueryOptions } from '#/services/blog'
 import { prepareQueryData } from '#/utils/ssr'
-import { Route as PageRoute } from './$slugOrId'
+import { Route as PageRoute } from './$slugOrId/route'
+import css from './route.module.css'
 
 export const Route = createFileRoute('/_blog-layout')({
   loader: async ({ context }) => {
@@ -20,7 +21,7 @@ function DefaultLayout({ children = <Outlet /> }: PropsWithChildren) {
   return (
     <div>
       <LayoutHeader />
-      {children}
+      <Suspense>{children}</Suspense>
       <LayoutFooter />
     </div>
   )
@@ -28,11 +29,13 @@ function DefaultLayout({ children = <Outlet /> }: PropsWithChildren) {
 
 function LayoutHeader() {
   return (
-    <header className="px-10 py-4">
+    <header className={cn('px-4 sm:px-10 py-4 sticky -top-4 z-10', css.header)}>
       <div className="max-w-prose mx-auto py-4 flex items-center gap-4">
         <HomeLink />
         <div className="contents text-sm *:first:ml-auto">
-          <TopLinks />
+          <Suspense>
+            <TopLinks />
+          </Suspense>
           <ThemeToggle />
         </div>
       </div>
@@ -77,7 +80,7 @@ function HomeLink() {
 }
 
 function TopLinks() {
-  const { data: links } = useQuery(linksQueryOptions())
+  const { data: links } = useSuspenseQuery(linksQueryOptions())
 
   return (
     <>

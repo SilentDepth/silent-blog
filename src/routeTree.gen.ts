@@ -18,7 +18,7 @@ import { Route as PlaygroundSsrRouteImport } from './routes/playground/ssr'
 import { Route as PlaygroundOgImageRouteImport } from './routes/playground/og-image'
 import { Route as PlaygroundAtChar123nameChar125RouteImport } from './routes/playground/@{$name}'
 import { Route as DebugLayoutDebugRouteImport } from './routes/_debug-layout/debug'
-import { Route as BlogLayoutSlugOrIdRouteImport } from './routes/_blog-layout/$slugOrId'
+import { Route as BlogLayoutSlugOrIdRouteRouteImport } from './routes/_blog-layout/$slugOrId/route'
 import { Route as DebugLayoutSlugOrIdDebugRouteImport } from './routes/_debug-layout/$slugOrId/debug'
 import { Route as BlogLayoutSlugOrIdImageDotChar123formatChar125RouteImport } from './routes/_blog-layout/$slugOrId/image[.]{$format}'
 
@@ -66,7 +66,7 @@ const DebugLayoutDebugRoute = DebugLayoutDebugRouteImport.update({
   path: '/debug',
   getParentRoute: () => DebugLayoutRouteRoute,
 } as any)
-const BlogLayoutSlugOrIdRoute = BlogLayoutSlugOrIdRouteImport.update({
+const BlogLayoutSlugOrIdRouteRoute = BlogLayoutSlugOrIdRouteRouteImport.update({
   id: '/$slugOrId',
   path: '/$slugOrId',
   getParentRoute: () => BlogLayoutRouteRoute,
@@ -81,13 +81,13 @@ const BlogLayoutSlugOrIdImageDotChar123formatChar125Route =
   BlogLayoutSlugOrIdImageDotChar123formatChar125RouteImport.update({
     id: '/image.{$format}',
     path: '/image.{$format}',
-    getParentRoute: () => BlogLayoutSlugOrIdRoute,
+    getParentRoute: () => BlogLayoutSlugOrIdRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof BlogLayoutIndexRoute
   '/playground': typeof PlaygroundRouteRouteWithChildren
-  '/$slugOrId': typeof BlogLayoutSlugOrIdRouteWithChildren
+  '/$slugOrId': typeof BlogLayoutSlugOrIdRouteRouteWithChildren
   '/debug': typeof DebugLayoutDebugRoute
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
@@ -99,7 +99,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof BlogLayoutIndexRoute
   '/playground': typeof PlaygroundRouteRouteWithChildren
-  '/$slugOrId': typeof BlogLayoutSlugOrIdRouteWithChildren
+  '/$slugOrId': typeof BlogLayoutSlugOrIdRouteRouteWithChildren
   '/debug': typeof DebugLayoutDebugRoute
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
@@ -113,7 +113,7 @@ export interface FileRoutesById {
   '/_blog-layout': typeof BlogLayoutRouteRouteWithChildren
   '/_debug-layout': typeof DebugLayoutRouteRouteWithChildren
   '/playground': typeof PlaygroundRouteRouteWithChildren
-  '/_blog-layout/$slugOrId': typeof BlogLayoutSlugOrIdRouteWithChildren
+  '/_blog-layout/$slugOrId': typeof BlogLayoutSlugOrIdRouteRouteWithChildren
   '/_debug-layout/debug': typeof DebugLayoutDebugRoute
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
@@ -239,7 +239,7 @@ declare module '@tanstack/react-router' {
       id: '/_blog-layout/$slugOrId'
       path: '/$slugOrId'
       fullPath: '/$slugOrId'
-      preLoaderRoute: typeof BlogLayoutSlugOrIdRouteImport
+      preLoaderRoute: typeof BlogLayoutSlugOrIdRouteRouteImport
       parentRoute: typeof BlogLayoutRouteRoute
     }
     '/_debug-layout/$slugOrId/debug': {
@@ -254,30 +254,33 @@ declare module '@tanstack/react-router' {
       path: '/image.{$format}'
       fullPath: '/$slugOrId/image.{$format}'
       preLoaderRoute: typeof BlogLayoutSlugOrIdImageDotChar123formatChar125RouteImport
-      parentRoute: typeof BlogLayoutSlugOrIdRoute
+      parentRoute: typeof BlogLayoutSlugOrIdRouteRoute
     }
   }
 }
 
-interface BlogLayoutSlugOrIdRouteChildren {
+interface BlogLayoutSlugOrIdRouteRouteChildren {
   BlogLayoutSlugOrIdImageDotChar123formatChar125Route: typeof BlogLayoutSlugOrIdImageDotChar123formatChar125Route
 }
 
-const BlogLayoutSlugOrIdRouteChildren: BlogLayoutSlugOrIdRouteChildren = {
-  BlogLayoutSlugOrIdImageDotChar123formatChar125Route:
-    BlogLayoutSlugOrIdImageDotChar123formatChar125Route,
-}
+const BlogLayoutSlugOrIdRouteRouteChildren: BlogLayoutSlugOrIdRouteRouteChildren =
+  {
+    BlogLayoutSlugOrIdImageDotChar123formatChar125Route:
+      BlogLayoutSlugOrIdImageDotChar123formatChar125Route,
+  }
 
-const BlogLayoutSlugOrIdRouteWithChildren =
-  BlogLayoutSlugOrIdRoute._addFileChildren(BlogLayoutSlugOrIdRouteChildren)
+const BlogLayoutSlugOrIdRouteRouteWithChildren =
+  BlogLayoutSlugOrIdRouteRoute._addFileChildren(
+    BlogLayoutSlugOrIdRouteRouteChildren,
+  )
 
 interface BlogLayoutRouteRouteChildren {
-  BlogLayoutSlugOrIdRoute: typeof BlogLayoutSlugOrIdRouteWithChildren
+  BlogLayoutSlugOrIdRouteRoute: typeof BlogLayoutSlugOrIdRouteRouteWithChildren
   BlogLayoutIndexRoute: typeof BlogLayoutIndexRoute
 }
 
 const BlogLayoutRouteRouteChildren: BlogLayoutRouteRouteChildren = {
-  BlogLayoutSlugOrIdRoute: BlogLayoutSlugOrIdRouteWithChildren,
+  BlogLayoutSlugOrIdRouteRoute: BlogLayoutSlugOrIdRouteRouteWithChildren,
   BlogLayoutIndexRoute: BlogLayoutIndexRoute,
 }
 

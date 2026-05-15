@@ -1,0 +1,13 @@
+diff --git a/build/index.js b/build/index.js
+index a6e480b3af481cae74ac9ec18798a13645c40809..cfdfe06007616654cf749d94c3d7e85709efa903 100644
+--- a/build/index.js
++++ b/build/index.js
+@@ -334,7 +334,7 @@ var pageIdRe = /\b([\da-f]{32})\b/;
+ var pageId2Re = /\b([\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12})\b/;
+ var parsePageId = (id = "", { uuid = true } = {}) => {
+   if (!id) return;
+-  id = id.split("?")[0];
++  id = typeof id === "string" ? id.split("?")[0] : undefined;
+   if (!id) return;
+   const match = id.match(pageIdRe);
+   if (match) {

@@ -1,0 +1,12 @@
+@reference 'tailwindcss';
+
+.body {
+  @apply bg-(--page-bg);
+  --page-bg: var(--color-olive-100);
+  --page-fg: var(--color-olive-800);
+
+  :global(.dark) & {
+    --page-bg: var(--color-mist-900);
+    --page-fg: var(--color-mist-200);
+  }
+}

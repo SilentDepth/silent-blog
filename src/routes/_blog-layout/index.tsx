@@ -1,20 +1,21 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import dayjs from 'dayjs'
 import { random } from 'es-toolkit'
+import type { ComponentProps } from 'react'
+import { Suspense } from 'react'
 import { tv } from 'tailwind-variants'
 import MingcuteQuoteRightFill from '~icons/mingcute/quote-right-fill'
 import Text from '#/components/Text'
 import type { PostInfo } from '#/services/blog'
 import { postsQueryOptions } from '#/services/blog'
 import { cn } from '#/utils/classname'
-import { prepareQueryData } from '#/utils/ssr'
-import { Route as PageRoute } from './$slugOrId'
+import { Route as PageRoute } from './$slugOrId/route'
+import css from './index.module.css'
+
+let animated = false
 
 export const Route = createFileRoute('/_blog-layout/')({
-  loader: async ({ context }) => {
-    await prepareQueryData(context.queryClient, postsQueryOptions())
-  },
   headers: () => ({
     'Cache-Control': 'public, max-age=3600, stale-while-revalidate=604800',
   }),
@@ -23,23 +24,39 @@ export const Route = createFileRoute('/_blog-layout/')({
 })
 
 function Page() {
-  const { data: posts, isLoading } = useQuery(postsQueryOptions())
-
   return (
-    <main className="px-10">
-      <PostList posts={isLoading ? undefined : (posts?.items ?? [])} />
+    <main className="px-4 sm:px-10">
+      <ul className="max-w-prose mx-auto grid grid-cols-[auto_1fr] gap-x-4 gap-y-8">
+        <Suspense
+          fallback={
+            <>
+              {Array.from({ length: 5 }, (_, idx) => (
+                <PostItem key={idx} />
+              ))}
+            </>
+          }
+        >
+          <PostList />
+        </Suspense>
+      </ul>
     </main>
   )
 }
 
-function PostList({ posts }: { posts?: PostInfo[] }) {
-  return (
-    <ul className="max-w-prose mx-auto grid grid-cols-[auto_1fr] gap-4">
-      {(posts ?? Array.from<undefined>({ length: 5 })).map((it, idx) => (
-        <PostItem key={it?.id ?? idx} data={it} />
-      ))}
-    </ul>
-  )
+function PostList() {
+  const { data: posts } = useSuspenseQuery(postsQueryOptions())
+
+  return posts?.items?.map((it, idx) => (
+    <PostItem
+      key={it?.id ?? idx}
+      data={it}
+      className={cn(css.post_item, !animated && css.animate)}
+      style={{ '--delay': idx < 9 ? idx * 0.1 + 's' : '0.9s' }}
+      onAnimationEnd={() => {
+        animated = true
+      }}
+    />
+  ))
 }
 
 const postStyles = tv({
@@ -59,7 +76,7 @@ const postStyles = tv({
     isLight: {
       true: {
         root: [
-          'py-2 [&+&]:-mt-4 border-t [&+&]:border-t-0 border-b flex flex-col relative',
+          'py-4 [&+&]:-mt-8 border-t [&+&]:border-t-0 border-b flex flex-col relative',
           // Light mode
           'border-olive-300',
           // Dark mode
@@ -77,7 +94,7 @@ const postStyles = tv({
   },
 })
 
-function PostItem({ data }: { data?: PostInfo }) {
+function PostItem({ data, className, ...attrs }: ComponentProps<'li'> & { data?: PostInfo }) {
   const skeleton = !data
   const styles = postStyles(data)
 
@@ -88,7 +105,7 @@ function PostItem({ data }: { data?: PostInfo }) {
   )
 
   return (
-    <li className={styles.root()}>
+    <li {...attrs} className={styles.root({ className })}>
       <time dateTime={data?.date} className={styles.time()}>
         <Text
           value={data ? dayjs(data.date).format('YYYY-MM-DD') : '2000-01-01'}

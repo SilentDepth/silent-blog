@@ -1,10 +1,13 @@
-import handler, { createServerEntry } from '@tanstack/react-start/server-entry'
+import {
+  createStartHandler,
+  defineHandlerCallback,
+  defaultStreamHandler,
+} from '@tanstack/react-start/server'
+import { createServerEntry } from '@tanstack/react-start/server-entry'
 import { FastResponse } from 'srvx'
 
 globalThis.Response = FastResponse
 
 export default createServerEntry({
-  fetch(request) {
-    return handler.fetch(request)
-  },
+  fetch: createStartHandler(defineHandlerCallback(defaultStreamHandler)),
 })

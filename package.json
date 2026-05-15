@@ -65,28 +65,5 @@
     "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
     "wrangler": "^4.88.0"
   },
-  "packageManager": "pnpm@11.0.7",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lightningcss"
-    ],
-    "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@latest",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
-    },
-    "peerDependencyRules": {
-      "allowAny": [
-        "vite",
-        "vitest"
-      ],
-      "allowedVersions": {
-        "vite": "*",
-        "vitest": "*"
-      }
-    },
-    "patchedDependencies": {
-      "react-notion-x": "patches/react-notion-x.patch"
-    }
-  }
+  "packageManager": "pnpm@11.0.7"
 }

@@ -7,6 +7,7 @@ import type { PropsWithChildren } from 'react'
 import { cn } from '#/utils/classname'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import appCss from '../styles.css?url'
+import css from './__root.module.css'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -54,10 +55,8 @@ function RootDocument({ children }: PropsWithChildren) {
       <body
         className={cn(
           'text-base font-sans antialiased wrap-anywhere selection:bg-[rgba(79,184,178,0.24)]',
-          // Light mode
-          'text-olive-800 bg-olive-100',
-          // Dark mode
-          'dark:text-mist-200 dark:bg-mist-900',
+          'dark:font-medium',
+          css.body,
         )}
       >
         {children}
