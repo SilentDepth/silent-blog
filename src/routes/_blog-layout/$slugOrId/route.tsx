@@ -1,12 +1,15 @@
 import 'react-notion-x/styles.css'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
-import type { ComponentProps } from 'react'
-import { Suspense } from 'react'
-import { twMerge as cn } from 'tailwind-merge'
+import dayjs from 'dayjs'
+import type { ExtendedRecordMap } from 'notion-types'
+import type { ComponentProps, PropsWithChildren } from 'react'
+import { Suspense, useContext, createContext } from 'react'
 import { joinURL } from 'ufo'
-import PageRenderer from '#/components/PageRenderer'
+import NotionRenderer from '#/components/NotionRenderer'
+import Text from '#/components/Text'
 import { parseNotionPage, postQueryOptions } from '#/services/blog'
+import { cn } from '#/utils/classname'
 import { createSeoMeta } from '#/utils/seo'
 import { getSiteUrl, isClient, isServer, prepareQueryData } from '#/utils/ssr'
 import { Uuid } from '#/utils/types'
@@ -51,37 +54,74 @@ export const Route = createFileRoute('/_blog-layout/$slugOrId')({
       ],
     }
   },
-  pendingComponent: PendingComponent,
+  pendingComponent: PageRenderer,
   component: RouteComponent,
 })
 
-function PendingComponent() {
+function RouteComponent() {
   return (
-    <PageLayoutRenderer>
-      <PageRenderer skeleton title="Lorem ipsum dolor sit amet" />
-    </PageLayoutRenderer>
+    <Suspense fallback={<PageRenderer />}>
+      <PostProvider>
+        <PageRenderer />
+      </PostProvider>
+    </Suspense>
   )
 }
 
-function RouteComponent() {
+const PostContext = createContext<
+  | {
+      title: string
+      date?: string
+      recordMap: ExtendedRecordMap
+    }
+  | undefined
+>(undefined)
+
+function PostProvider({ children }: PropsWithChildren) {
   const { slugOrId } = Route.useParams()
   const { data } = useSuspenseQuery(postQueryOptions(slugOrId))
-
-  if (!data) return <PageRenderer skeleton title="Lorem ipsum dolor sit amet" />
-
-  const { title, date } = parseNotionPage(data.raw.page)
+  const parsed = data && parseNotionPage(data.raw.page)
 
   return (
-    <PageLayoutRenderer className={css.post_content}>
-      <PageRenderer title={title} date={date} recordMap={data} />
-    </PageLayoutRenderer>
+    <PostContext value={data && parsed ? { ...parsed, recordMap: data } : undefined}>
+      {children}
+    </PostContext>
   )
 }
 
-function PageLayoutRenderer({ className, children, ...attrs }: ComponentProps<'div'>) {
+function PageRenderer({ className, ...attrs }: Omit<ComponentProps<'div'>, 'children'>) {
+  const ctx = useContext(PostContext)
+
   return (
-    <div {...attrs} className={cn('px-4 sm:px-10', className)}>
-      <Suspense>{children}</Suspense>
+    <div {...attrs} className={cn('px-4 sm:px-10', ctx && css.post_entering, className)}>
+      <header className="max-w-prose mx-auto mb-4">
+        <h1 className={cn('text-3xl font-black mb-2', ctx && 'font-serif')}>
+          {ctx ? <Text value={ctx.title} /> : <Text value="Lorem ipsum dolor sit amet" skeleton />}
+        </h1>
+        <p className="text-sm prepend-zws text-gray-500">
+          {ctx?.date && dayjs(ctx.date).format('YYYY-MM-DD')}
+        </p>
+      </header>
+      <div className="notion-wrapper max-w-prose mx-auto">
+        {ctx ? (
+          <NotionRenderer recordMap={ctx.recordMap} />
+        ) : (
+          <div>
+            <div className="notion-text">
+              <Text
+                value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad beatae culpa distinctio eaque ex, laborum possimus repellat sequi suscipit. Blanditiis deleniti facilis fuga itaque non numquam omnis porro rem temporibus."
+                skeleton
+              />
+            </div>
+            <div className="notion-text">
+              <Text
+                value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab amet blanditiis dolorem excepturi explicabo?"
+                skeleton
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

@@ -86,7 +86,7 @@ const postStyles = tv({
       },
       false: {
         root: 'grid grid-cols-subgrid gap-y-1',
-        title: 'font-serif font-semibold',
+        title: 'font-serif font-bold',
         time: 'leading-7',
         summary: 'col-start-2 text-sm',
       },

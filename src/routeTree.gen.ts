@@ -15,6 +15,7 @@ import { Route as BlogLayoutRouteRouteImport } from './routes/_blog-layout/route
 import { Route as BlogLayoutIndexRouteImport } from './routes/_blog-layout/index'
 import { Route as PlaygroundWasmRouteImport } from './routes/playground/wasm'
 import { Route as PlaygroundSsrRouteImport } from './routes/playground/ssr'
+import { Route as PlaygroundSkeletonRouteImport } from './routes/playground/skeleton'
 import { Route as PlaygroundOgImageRouteImport } from './routes/playground/og-image'
 import { Route as PlaygroundAtChar123nameChar125RouteImport } from './routes/playground/@{$name}'
 import { Route as DebugLayoutDebugRouteImport } from './routes/_debug-layout/debug'
@@ -48,6 +49,11 @@ const PlaygroundWasmRoute = PlaygroundWasmRouteImport.update({
 const PlaygroundSsrRoute = PlaygroundSsrRouteImport.update({
   id: '/ssr',
   path: '/ssr',
+  getParentRoute: () => PlaygroundRouteRoute,
+} as any)
+const PlaygroundSkeletonRoute = PlaygroundSkeletonRouteImport.update({
+  id: '/skeleton',
+  path: '/skeleton',
   getParentRoute: () => PlaygroundRouteRoute,
 } as any)
 const PlaygroundOgImageRoute = PlaygroundOgImageRouteImport.update({
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/debug': typeof DebugLayoutDebugRoute
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
+  '/playground/skeleton': typeof PlaygroundSkeletonRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
   '/playground/wasm': typeof PlaygroundWasmRoute
   '/$slugOrId/image.{$format}': typeof BlogLayoutSlugOrIdImageDotChar123formatChar125Route
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/debug': typeof DebugLayoutDebugRoute
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
+  '/playground/skeleton': typeof PlaygroundSkeletonRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
   '/playground/wasm': typeof PlaygroundWasmRoute
   '/$slugOrId/image.{$format}': typeof BlogLayoutSlugOrIdImageDotChar123formatChar125Route
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/_debug-layout/debug': typeof DebugLayoutDebugRoute
   '/playground/@{$name}': typeof PlaygroundAtChar123nameChar125Route
   '/playground/og-image': typeof PlaygroundOgImageRoute
+  '/playground/skeleton': typeof PlaygroundSkeletonRoute
   '/playground/ssr': typeof PlaygroundSsrRoute
   '/playground/wasm': typeof PlaygroundWasmRoute
   '/_blog-layout/': typeof BlogLayoutIndexRoute
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
     | '/debug'
     | '/playground/@{$name}'
     | '/playground/og-image'
+    | '/playground/skeleton'
     | '/playground/ssr'
     | '/playground/wasm'
     | '/$slugOrId/image.{$format}'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/debug'
     | '/playground/@{$name}'
     | '/playground/og-image'
+    | '/playground/skeleton'
     | '/playground/ssr'
     | '/playground/wasm'
     | '/$slugOrId/image.{$format}'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/_debug-layout/debug'
     | '/playground/@{$name}'
     | '/playground/og-image'
+    | '/playground/skeleton'
     | '/playground/ssr'
     | '/playground/wasm'
     | '/_blog-layout/'
@@ -212,6 +224,13 @@ declare module '@tanstack/react-router' {
       path: '/ssr'
       fullPath: '/playground/ssr'
       preLoaderRoute: typeof PlaygroundSsrRouteImport
+      parentRoute: typeof PlaygroundRouteRoute
+    }
+    '/playground/skeleton': {
+      id: '/playground/skeleton'
+      path: '/skeleton'
+      fullPath: '/playground/skeleton'
+      preLoaderRoute: typeof PlaygroundSkeletonRouteImport
       parentRoute: typeof PlaygroundRouteRoute
     }
     '/playground/og-image': {
@@ -304,6 +323,7 @@ const DebugLayoutRouteRouteWithChildren =
 interface PlaygroundRouteRouteChildren {
   PlaygroundAtChar123nameChar125Route: typeof PlaygroundAtChar123nameChar125Route
   PlaygroundOgImageRoute: typeof PlaygroundOgImageRoute
+  PlaygroundSkeletonRoute: typeof PlaygroundSkeletonRoute
   PlaygroundSsrRoute: typeof PlaygroundSsrRoute
   PlaygroundWasmRoute: typeof PlaygroundWasmRoute
 }
@@ -311,6 +331,7 @@ interface PlaygroundRouteRouteChildren {
 const PlaygroundRouteRouteChildren: PlaygroundRouteRouteChildren = {
   PlaygroundAtChar123nameChar125Route: PlaygroundAtChar123nameChar125Route,
   PlaygroundOgImageRoute: PlaygroundOgImageRoute,
+  PlaygroundSkeletonRoute: PlaygroundSkeletonRoute,
   PlaygroundSsrRoute: PlaygroundSsrRoute,
   PlaygroundWasmRoute: PlaygroundWasmRoute,
 }

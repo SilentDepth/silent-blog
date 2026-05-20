@@ -1,17 +1,19 @@
-.post_content {
-  animation:
-    0.5s linear 1 backwards fade-in,
-    0.5s var(--ease-out) 1 backwards slide-in;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
+@layer components {
+  .post_entering {
+    animation:
+      0.5s linear 1 backwards fade-in,
+      0.5s var(--ease-out) 1 backwards slide-in;
   }
-}
 
-@keyframes slide-in {
-  from {
-    translate: 0 2rem;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      translate: 0 2rem;
+    }
   }
 }
